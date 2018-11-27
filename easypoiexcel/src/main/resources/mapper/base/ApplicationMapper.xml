@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.easypoiexcel.rep.dao.ApplicationMapper" >
+  <resultMap id="BaseResultMap" type="com.example.easypoiexcel.entity.Application" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
+    <result column="app_secret" property="appSecret" jdbcType="VARCHAR" />
+    <result column="index_url" property="indexUrl" jdbcType="VARCHAR" />
+    <result column="name_" property="name" jdbcType="VARCHAR" />
+    <result column="logo_url" property="logoUrl" jdbcType="VARCHAR" />
+    <result column="desc_" property="desc" jdbcType="VARCHAR" />
+    <result column="code_" property="code" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="INTEGER" />
+    <result column="app_type" property="appType" jdbcType="SMALLINT" />
+    <result column="type_" property="type" jdbcType="VARCHAR" />
+    <result column="provider_" property="provider" jdbcType="VARCHAR" />
+    <result column="status_" property="status" jdbcType="BIT" />
+    <result column="random_str" property="randomStr" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+    <result column="org_system_code" property="orgSystemCode" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="reduce_time" property="reduceTime" jdbcType="DOUBLE" />
+    <result column="reduce_cost" property="reduceCost" jdbcType="INTEGER" />
+    <result column="original_time" property="originalTime" jdbcType="DOUBLE" />
+    <result column="original_cost" property="originalCost" jdbcType="INTEGER" />
+    <result column="is_fast_app" property="isFastApp" jdbcType="CHAR" />
+    <result column="biz_config_id" property="bizConfigId" jdbcType="BIGINT" />
+    <result column="hots_count" property="hotsCount" jdbcType="INTEGER" />
+    <result column="reduce_build_cost" property="reduceBuildCost" jdbcType="INTEGER" />
+    <result column="reduce_use_cost" property="reduceUseCost" jdbcType="INTEGER" />
+    <result column="reduce_protect_cost" property="reduceProtectCost" jdbcType="INTEGER" />
+    <result column="public_is" property="publicIs" jdbcType="BIT" />
+    <result column="service_id" property="serviceId" jdbcType="VARCHAR" />
+    <result column="full_root_path" property="fullRootPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, app_id, app_secret, index_url, name_, logo_url, desc_, code_, order_no, app_type, 
+    type_, provider_, status_, random_str, create_user, create_time, update_user, update_time, 
+    org_id, org_system_code, org_name, reduce_time, reduce_cost, original_time, original_cost, 
+    is_fast_app, biz_config_id, hots_count, reduce_build_cost, reduce_use_cost, reduce_protect_cost, 
+    public_is, service_id, full_root_path
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.easypoiexcel.rep.example.ApplicationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from c_application
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from c_application
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from c_application
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.easypoiexcel.rep.example.ApplicationExample" >
+    delete from c_application
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.easypoiexcel.entity.Application" >
+    insert into c_application (id, app_id, app_secret, 
+      index_url, name_, logo_url, 
+      desc_, code_, order_no, 
+      app_type, type_, provider_, 
+      status_, random_str, create_user, 
+      create_time, update_user, update_time, 
+      org_id, org_system_code, org_name, 
+      reduce_time, reduce_cost, original_time, 
+      original_cost, is_fast_app, biz_config_id, 
+      hots_count, reduce_build_cost, reduce_use_cost, 
+      reduce_protect_cost, public_is, service_id, 
+      full_root_path)
+    values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, 
+      #{indexUrl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{logoUrl,jdbcType=VARCHAR}, 
+      #{desc,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, 
+      #{appType,jdbcType=SMALLINT}, #{type,jdbcType=VARCHAR}, #{provider,jdbcType=VARCHAR}, 
+      #{status,jdbcType=BIT}, #{randomStr,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{orgId,jdbcType=VARCHAR}, #{orgSystemCode,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{reduceTime,jdbcType=DOUBLE}, #{reduceCost,jdbcType=INTEGER}, #{originalTime,jdbcType=DOUBLE}, 
+      #{originalCost,jdbcType=INTEGER}, #{isFastApp,jdbcType=CHAR}, #{bizConfigId,jdbcType=BIGINT}, 
+      #{hotsCount,jdbcType=INTEGER}, #{reduceBuildCost,jdbcType=INTEGER}, #{reduceUseCost,jdbcType=INTEGER}, 
+      #{reduceProtectCost,jdbcType=INTEGER}, #{publicIs,jdbcType=BIT}, #{serviceId,jdbcType=VARCHAR}, 
+      #{fullRootPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.easypoiexcel.entity.Application" >
+    insert into c_application
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="appSecret != null" >
+        app_secret,
+      </if>
+      <if test="indexUrl != null" >
+        index_url,
+      </if>
+      <if test="name != null" >
+        name_,
+      </if>
+      <if test="logoUrl != null" >
+        logo_url,
+      </if>
+      <if test="desc != null" >
+        desc_,
+      </if>
+      <if test="code != null" >
+        code_,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="appType != null" >
+        app_type,
+      </if>
+      <if test="type != null" >
+        type_,
+      </if>
+      <if test="provider != null" >
+        provider_,
+      </if>
+      <if test="status != null" >
+        status_,
+      </if>
+      <if test="randomStr != null" >
+        random_str,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgSystemCode != null" >
+        org_system_code,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="reduceTime != null" >
+        reduce_time,
+      </if>
+      <if test="reduceCost != null" >
+        reduce_cost,
+      </if>
+      <if test="originalTime != null" >
+        original_time,
+      </if>
+      <if test="originalCost != null" >
+        original_cost,
+      </if>
+      <if test="isFastApp != null" >
+        is_fast_app,
+      </if>
+      <if test="bizConfigId != null" >
+        biz_config_id,
+      </if>
+      <if test="hotsCount != null" >
+        hots_count,
+      </if>
+      <if test="reduceBuildCost != null" >
+        reduce_build_cost,
+      </if>
+      <if test="reduceUseCost != null" >
+        reduce_use_cost,
+      </if>
+      <if test="reduceProtectCost != null" >
+        reduce_protect_cost,
+      </if>
+      <if test="publicIs != null" >
+        public_is,
+      </if>
+      <if test="serviceId != null" >
+        service_id,
+      </if>
+      <if test="fullRootPath != null" >
+        full_root_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null" >
+        #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="indexUrl != null" >
+        #{indexUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="logoUrl != null" >
+        #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="appType != null" >
+        #{appType,jdbcType=SMALLINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="provider != null" >
+        #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="randomStr != null" >
+        #{randomStr,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSystemCode != null" >
+        #{orgSystemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="reduceTime != null" >
+        #{reduceTime,jdbcType=DOUBLE},
+      </if>
+      <if test="reduceCost != null" >
+        #{reduceCost,jdbcType=INTEGER},
+      </if>
+      <if test="originalTime != null" >
+        #{originalTime,jdbcType=DOUBLE},
+      </if>
+      <if test="originalCost != null" >
+        #{originalCost,jdbcType=INTEGER},
+      </if>
+      <if test="isFastApp != null" >
+        #{isFastApp,jdbcType=CHAR},
+      </if>
+      <if test="bizConfigId != null" >
+        #{bizConfigId,jdbcType=BIGINT},
+      </if>
+      <if test="hotsCount != null" >
+        #{hotsCount,jdbcType=INTEGER},
+      </if>
+      <if test="reduceBuildCost != null" >
+        #{reduceBuildCost,jdbcType=INTEGER},
+      </if>
+      <if test="reduceUseCost != null" >
+        #{reduceUseCost,jdbcType=INTEGER},
+      </if>
+      <if test="reduceProtectCost != null" >
+        #{reduceProtectCost,jdbcType=INTEGER},
+      </if>
+      <if test="publicIs != null" >
+        #{publicIs,jdbcType=BIT},
+      </if>
+      <if test="serviceId != null" >
+        #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="fullRootPath != null" >
+        #{fullRootPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.easypoiexcel.rep.example.ApplicationExample" resultType="java.lang.Integer" >
+    select count(*) from c_application
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update c_application
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.appId != null" >
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appSecret != null" >
+        app_secret = #{record.appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="record.indexUrl != null" >
+        index_url = #{record.indexUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name_ = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logoUrl != null" >
+        logo_url = #{record.logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.desc != null" >
+        desc_ = #{record.desc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code_ = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNo != null" >
+        order_no = #{record.orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.appType != null" >
+        app_type = #{record.appType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.type != null" >
+        type_ = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provider != null" >
+        provider_ = #{record.provider,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status_ = #{record.status,jdbcType=BIT},
+      </if>
+      <if test="record.randomStr != null" >
+        random_str = #{record.randomStr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null" >
+        update_user = #{record.updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orgId != null" >
+        org_id = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgSystemCode != null" >
+        org_system_code = #{record.orgSystemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgName != null" >
+        org_name = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reduceTime != null" >
+        reduce_time = #{record.reduceTime,jdbcType=DOUBLE},
+      </if>
+      <if test="record.reduceCost != null" >
+        reduce_cost = #{record.reduceCost,jdbcType=INTEGER},
+      </if>
+      <if test="record.originalTime != null" >
+        original_time = #{record.originalTime,jdbcType=DOUBLE},
+      </if>
+      <if test="record.originalCost != null" >
+        original_cost = #{record.originalCost,jdbcType=INTEGER},
+      </if>
+      <if test="record.isFastApp != null" >
+        is_fast_app = #{record.isFastApp,jdbcType=CHAR},
+      </if>
+      <if test="record.bizConfigId != null" >
+        biz_config_id = #{record.bizConfigId,jdbcType=BIGINT},
+      </if>
+      <if test="record.hotsCount != null" >
+        hots_count = #{record.hotsCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.reduceBuildCost != null" >
+        reduce_build_cost = #{record.reduceBuildCost,jdbcType=INTEGER},
+      </if>
+      <if test="record.reduceUseCost != null" >
+        reduce_use_cost = #{record.reduceUseCost,jdbcType=INTEGER},
+      </if>
+      <if test="record.reduceProtectCost != null" >
+        reduce_protect_cost = #{record.reduceProtectCost,jdbcType=INTEGER},
+      </if>
+      <if test="record.publicIs != null" >
+        public_is = #{record.publicIs,jdbcType=BIT},
+      </if>
+      <if test="record.serviceId != null" >
+        service_id = #{record.serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullRootPath != null" >
+        full_root_path = #{record.fullRootPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update c_application
+    set id = #{record.id,jdbcType=BIGINT},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      app_secret = #{record.appSecret,jdbcType=VARCHAR},
+      index_url = #{record.indexUrl,jdbcType=VARCHAR},
+      name_ = #{record.name,jdbcType=VARCHAR},
+      logo_url = #{record.logoUrl,jdbcType=VARCHAR},
+      desc_ = #{record.desc,jdbcType=VARCHAR},
+      code_ = #{record.code,jdbcType=VARCHAR},
+      order_no = #{record.orderNo,jdbcType=INTEGER},
+      app_type = #{record.appType,jdbcType=SMALLINT},
+      type_ = #{record.type,jdbcType=VARCHAR},
+      provider_ = #{record.provider,jdbcType=VARCHAR},
+      status_ = #{record.status,jdbcType=BIT},
+      random_str = #{record.randomStr,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      org_id = #{record.orgId,jdbcType=VARCHAR},
+      org_system_code = #{record.orgSystemCode,jdbcType=VARCHAR},
+      org_name = #{record.orgName,jdbcType=VARCHAR},
+      reduce_time = #{record.reduceTime,jdbcType=DOUBLE},
+      reduce_cost = #{record.reduceCost,jdbcType=INTEGER},
+      original_time = #{record.originalTime,jdbcType=DOUBLE},
+      original_cost = #{record.originalCost,jdbcType=INTEGER},
+      is_fast_app = #{record.isFastApp,jdbcType=CHAR},
+      biz_config_id = #{record.bizConfigId,jdbcType=BIGINT},
+      hots_count = #{record.hotsCount,jdbcType=INTEGER},
+      reduce_build_cost = #{record.reduceBuildCost,jdbcType=INTEGER},
+      reduce_use_cost = #{record.reduceUseCost,jdbcType=INTEGER},
+      reduce_protect_cost = #{record.reduceProtectCost,jdbcType=INTEGER},
+      public_is = #{record.publicIs,jdbcType=BIT},
+      service_id = #{record.serviceId,jdbcType=VARCHAR},
+      full_root_path = #{record.fullRootPath,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.easypoiexcel.entity.Application" >
+    update c_application
+    <set >
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="appSecret != null" >
+        app_secret = #{appSecret,jdbcType=VARCHAR},
+      </if>
+      <if test="indexUrl != null" >
+        index_url = #{indexUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name_ = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="logoUrl != null" >
+        logo_url = #{logoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        desc_ = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code_ = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=INTEGER},
+      </if>
+      <if test="appType != null" >
+        app_type = #{appType,jdbcType=SMALLINT},
+      </if>
+      <if test="type != null" >
+        type_ = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="provider != null" >
+        provider_ = #{provider,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status_ = #{status,jdbcType=BIT},
+      </if>
+      <if test="randomStr != null" >
+        random_str = #{randomStr,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSystemCode != null" >
+        org_system_code = #{orgSystemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="reduceTime != null" >
+        reduce_time = #{reduceTime,jdbcType=DOUBLE},
+      </if>
+      <if test="reduceCost != null" >
+        reduce_cost = #{reduceCost,jdbcType=INTEGER},
+      </if>
+      <if test="originalTime != null" >
+        original_time = #{originalTime,jdbcType=DOUBLE},
+      </if>
+      <if test="originalCost != null" >
+        original_cost = #{originalCost,jdbcType=INTEGER},
+      </if>
+      <if test="isFastApp != null" >
+        is_fast_app = #{isFastApp,jdbcType=CHAR},
+      </if>
+      <if test="bizConfigId != null" >
+        biz_config_id = #{bizConfigId,jdbcType=BIGINT},
+      </if>
+      <if test="hotsCount != null" >
+        hots_count = #{hotsCount,jdbcType=INTEGER},
+      </if>
+      <if test="reduceBuildCost != null" >
+        reduce_build_cost = #{reduceBuildCost,jdbcType=INTEGER},
+      </if>
+      <if test="reduceUseCost != null" >
+        reduce_use_cost = #{reduceUseCost,jdbcType=INTEGER},
+      </if>
+      <if test="reduceProtectCost != null" >
+        reduce_protect_cost = #{reduceProtectCost,jdbcType=INTEGER},
+      </if>
+      <if test="publicIs != null" >
+        public_is = #{publicIs,jdbcType=BIT},
+      </if>
+      <if test="serviceId != null" >
+        service_id = #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="fullRootPath != null" >
+        full_root_path = #{fullRootPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.easypoiexcel.entity.Application" >
+    update c_application
+    set app_id = #{appId,jdbcType=VARCHAR},
+      app_secret = #{appSecret,jdbcType=VARCHAR},
+      index_url = #{indexUrl,jdbcType=VARCHAR},
+      name_ = #{name,jdbcType=VARCHAR},
+      logo_url = #{logoUrl,jdbcType=VARCHAR},
+      desc_ = #{desc,jdbcType=VARCHAR},
+      code_ = #{code,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=INTEGER},
+      app_type = #{appType,jdbcType=SMALLINT},
+      type_ = #{type,jdbcType=VARCHAR},
+      provider_ = #{provider,jdbcType=VARCHAR},
+      status_ = #{status,jdbcType=BIT},
+      random_str = #{randomStr,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      org_id = #{orgId,jdbcType=VARCHAR},
+      org_system_code = #{orgSystemCode,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      reduce_time = #{reduceTime,jdbcType=DOUBLE},
+      reduce_cost = #{reduceCost,jdbcType=INTEGER},
+      original_time = #{originalTime,jdbcType=DOUBLE},
+      original_cost = #{originalCost,jdbcType=INTEGER},
+      is_fast_app = #{isFastApp,jdbcType=CHAR},
+      biz_config_id = #{bizConfigId,jdbcType=BIGINT},
+      hots_count = #{hotsCount,jdbcType=INTEGER},
+      reduce_build_cost = #{reduceBuildCost,jdbcType=INTEGER},
+      reduce_use_cost = #{reduceUseCost,jdbcType=INTEGER},
+      reduce_protect_cost = #{reduceProtectCost,jdbcType=INTEGER},
+      public_is = #{publicIs,jdbcType=BIT},
+      service_id = #{serviceId,jdbcType=VARCHAR},
+      full_root_path = #{fullRootPath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
