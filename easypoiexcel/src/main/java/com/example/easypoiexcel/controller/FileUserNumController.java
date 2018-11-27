@@ -12,6 +12,7 @@ import com.example.easypoiexcel.rep.service.api.ApplicationService;
 import com.example.easypoiexcel.rep.service.api.FileUSerNumService;
 import com.example.easypoiexcel.utils.FileUtil;
 import com.example.easypoiexcel.utils.Result;
+import com.sun.deploy.net.URLEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,6 +181,30 @@ public class FileUserNumController {
             fos.close();
             log.info("导出完成，文件存放路径={}",saveFile);
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 模板导出 页面下载
+     * */
+    @RequestMapping("/exportModel02")
+    public void exportModel02(HttpServletResponse response){
+
+        fileName = "appAllList.xls";
+        saveFile = filePath + fileName;
+
+        List<FileUserNum> FileUserNums = fileUSerNumService.getAllNum();
+        //引入模板
+        TemplateExportParams params = new TemplateExportParams("import/FileUserNum.xls", true);
+        Workbook workbook = ExcelExportUtil.exportExcel(params, FileUserNum.class, FileUserNums, new HashMap<>());
+        try {
+            response.setCharacterEncoding("UTF-8");
+            response.setHeader("content-Type", "application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+            workbook.write(response.getOutputStream());
+            log.info("到出完成");
+        } catch (IOException e) {
+            log.error("到出异常={}",e);
             e.printStackTrace();
         }
     }
