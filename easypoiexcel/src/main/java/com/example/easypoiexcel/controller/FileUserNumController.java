@@ -3,8 +3,8 @@ package com.example.easypoiexcel.controller;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
-import cn.afterturn.easypoi.excel.export.base.BaseExportService;
-import cn.afterturn.easypoi.excel.export.styler.IExcelExportStyler;
+import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import com.example.easypoiexcel.comm.SheetsAttr;
 import com.example.easypoiexcel.entity.Application;
 import com.example.easypoiexcel.entity.FileUserNum;
 import com.example.easypoiexcel.excelDTO.AppFileDTO;
@@ -16,6 +16,7 @@ import com.sun.deploy.net.URLEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +25,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,9 +112,6 @@ public class FileUserNumController {
         }
     }
 
-
-
-
     //mdengbo 设置文件存放路径
     private  String filePath = "D:\\excel\\";
     //设置文件名
@@ -192,22 +191,79 @@ public class FileUserNumController {
 
         fileName = "appAllList.xls";
         saveFile = filePath + fileName;
+        String templateUrl = "import/FileUserNum.xls";
 
         List<FileUserNum> FileUserNums = fileUSerNumService.getAllNum();
         //引入模板
-        TemplateExportParams params = new TemplateExportParams("import/FileUserNum.xls", true);
-        Workbook workbook = ExcelExportUtil.exportExcel(params, FileUserNum.class, FileUserNums, new HashMap<>());
+        try {
+            FileUtil.exportExcel(FileUserNums, FileUserNum.class, fileName,templateUrl, response);
+            log.info("导出完成");
+        } catch (Exception e) {
+            log.error("导出异常 exception={}", e);
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 多sheet导出
+     * */
+    @RequestMapping("/exportMutiExcel")
+    public void exportMutiExcel(HttpServletResponse response, ModelMap modelMap){
+
+        List<FileUserNum> fileUserNums = fileUSerNumService.getAllNum();
+        List<Application> allApp = applicationService.getAllApp();
+
+        SheetsAttr sheetsAttr = new SheetsAttr();
+        ExportParams params1 = new ExportParams() ;
+        params1.setSheetName("文件月报表");
+        params1.setTitle("文件月报表title");
+        ExportParams params2 = new ExportParams() ;
+        params2.setSheetName("应用表") ;
+        params2.setTitle("应用表title");
+        sheetsAttr.setExportParams(params1);
+        sheetsAttr.setMap(params1,FileUserNum.class,fileUserNums);
+
+       /* // 设置导出配置
+        // 创建参数对象（用来设定excel得sheet得内容等信息）
+        ExportParams params1 = new ExportParams() ;
+        // 设置sheet得名称
+        params1.setSheetName("文件月报表");
+        params1.setTitle("文件月报表title");
+        ExportParams params2 = new ExportParams() ;
+        params2.setSheetName("应用表") ;
+        params2.setTitle("应用表title");
+        // 创建sheet1使用得map
+        Map dataMap1 = new HashMap<>();
+        // title的参数为ExportParams类型，目前仅仅在ExportParams中设置了sheetName
+        dataMap1.put("title",params1) ;
+        // 模版导出对应得实体类型
+        dataMap1.put("entity",FileUserNum.class) ;
+        // sheet中要填充得数据
+        dataMap1.put("data",fileUserNums) ;
+        // 创建sheet2使用得map
+        Map dataMap2 = new HashMap<>();
+        dataMap2.put("title",params2) ;
+        dataMap2.put("entity",Application.class) ;
+        dataMap2.put("data",allApp) ;
+        // 将sheet1和sheet2使用得map进行包装
+        List<Map<String, Object>> sheetsList = new ArrayList<>() ;
+        sheetsList.add(dataMap1);
+        sheetsList.add(dataMap2);
+
+        Workbook workbook = ExcelExportUtil.exportExcel(sheetsList, ExcelType.HSSF);
         try {
             response.setCharacterEncoding("UTF-8");
             response.setHeader("content-Type", "application/vnd.ms-excel");
             response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
             workbook.write(response.getOutputStream());
-            log.info("到出完成");
         } catch (IOException e) {
-            log.error("到出异常={}",e);
-            e.printStackTrace();
+            try {
+                throw new Exception(e.getMessage());
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }*/
         }
-    }
+
 
 
 }

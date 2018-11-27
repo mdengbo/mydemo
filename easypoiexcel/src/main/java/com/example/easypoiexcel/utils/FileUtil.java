@@ -4,7 +4,9 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import com.example.easypoiexcel.entity.FileUserNum;
 import com.sun.deploy.net.URLEncoder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -13,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -31,6 +34,18 @@ public class FileUtil {
         defaultExport(list, pojoClass, fileName, response, exportParams);
     }
 
+    /**
+     * @Author: mdengbo 2018/11/27
+     * @desc 新增模板调用utils
+     *
+     * */
+    public static void exportExcel(List<?> list, Class<?> pojoClass, String fileName, String templateUrl ,HttpServletResponse response) throws Exception {
+
+        TemplateExportParams templateExportParams = new TemplateExportParams(templateUrl, true);
+
+        defaultExport(list, pojoClass, fileName, response, templateExportParams);
+    }
+
     public static void exportExcel(List<?> list, String title, String sheetName, Class<?> pojoClass, String fileName, HttpServletResponse response) throws Exception {
         defaultExport(list, pojoClass, fileName, response, new ExportParams(title, sheetName));
     }
@@ -44,6 +59,17 @@ public class FileUtil {
         if (workbook != null) ;
         downLoadExcel(fileName, response, workbook);
     }
+
+    /**
+     * @Author: mdengbo 2018/11/27
+     * @desc 新增模板调用utils
+     *
+    * */
+    private static void defaultExport(List<?> list, Class<?> pojoClass, String fileName, HttpServletResponse response, TemplateExportParams templateExportParams) throws Exception {
+            Workbook workbook = ExcelExportUtil.exportExcel(templateExportParams, pojoClass, list, new HashMap<>());
+            if (workbook != null) ;
+            downLoadExcel(fileName, response, workbook);
+        }
 
     private static void downLoadExcel(String fileName, HttpServletResponse response, Workbook workbook) throws Exception {
         try {
