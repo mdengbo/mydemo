@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import cn.afterturn.easypoi.excel.export.styler.ExcelExportStylerColorImpl;
 import com.example.easypoiexcel.StyleAttr.Style_xls;
 import com.example.easypoiexcel.comm.SheetsAttr;
 import com.example.easypoiexcel.entity.Application;
@@ -135,9 +136,11 @@ public class XlsController {
             //设置文件名 文件标题
             ExportParams exportParams = new ExportParams("对应应用的文件", "文件月下载量");
             //设置style
+            exportParams.setStyle(Style_xls.class);
 
             Workbook workbook = ExcelExportUtil.exportExcel(exportParams,
                     AppFileDTO.class, allApp);
+
 
             FileOutputStream fos = new FileOutputStream(
                     //FileUtilTest.getWebRootPath("import/sameName.xls")

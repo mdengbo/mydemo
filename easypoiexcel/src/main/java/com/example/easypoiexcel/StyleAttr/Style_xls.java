@@ -1,10 +1,12 @@
 package com.example.easypoiexcel.StyleAttr;
 
-
 import cn.afterturn.easypoi.excel.entity.params.ExcelExportEntity;
 import cn.afterturn.easypoi.excel.entity.params.ExcelForEachParams;
 import cn.afterturn.easypoi.excel.export.styler.IExcelExportStyler;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
+
+import java.util.List;
 
 /**
  * @author madengbo
@@ -12,10 +14,18 @@ import org.apache.poi.ss.usermodel.*;
  * @desc
  * @Version 1.0
  **/
+@Slf4j
 public class Style_xls implements IExcelExportStyler {
 
+    private static final short STRING_FORMAT = (short) BuiltinFormats.getBuiltinFormat("TEXT");
 
-    private static final short STRING_FORMAT = (short) BuiltinFormats.getBuiltinFormat("TEXT"); private static final short FONT_SIZE_TEN = 10; private static final short FONT_SIZE_ELEVEN = 11; private static final short FONT_SIZE_TWELVE = 12;
+    private static final short FONT_SIZE_FIVE= 10;
+
+    private static final short FONT_SIZE_TEN = 10;
+
+    private static final short FONT_SIZE_ELEVEN = 11;
+
+    private static final short FONT_SIZE_TWELVE = 12;
     /**
      * 大标题样式
      */
@@ -48,14 +58,20 @@ public class Style_xls implements IExcelExportStyler {
      * @param color
      * @return
      */
-    @Override public CellStyle getHeaderStyle(short color) { return headerStyle; }
+    @Override
+    public CellStyle getHeaderStyle(short color) {
+        return headerStyle;
+    }
     /**
      * 每列标题样式
      *
      * @param color
      * @return
      */
-    @Override public CellStyle getTitleStyle(short color) { return titleStyle; }
+    @Override
+    public CellStyle getTitleStyle(short color) {
+        return titleStyle;
+    }
     /**
      * 数据行样式
      *
@@ -63,7 +79,10 @@ public class Style_xls implements IExcelExportStyler {
      * @param entity 数据内容
      * @return 样式
      */
-    @Override public CellStyle getStyles(boolean parity, ExcelExportEntity entity) { return styles; }
+    @Override
+    public CellStyle getStyles(boolean parity, ExcelExportEntity entity) {
+        return styles;
+    }
     /**
      * 获取样式方法
      *
@@ -71,11 +90,17 @@ public class Style_xls implements IExcelExportStyler {
      * @param obj     对象
      * @param data    数据
      */
-    @Override public CellStyle getStyles(Cell cell, int dataRow, ExcelExportEntity entity, Object obj, Object data) { return getStyles(true, entity); }
+    @Override
+    public CellStyle getStyles(Cell cell, int dataRow, ExcelExportEntity entity, Object obj, Object data) {
+        return getStyles(true, entity);
+    }
     /**
      * 模板使用的样式设置
      */
-    @Override public CellStyle getTemplateStyles(boolean isSingle, ExcelForEachParams excelForEachParams) { return null; }
+    @Override
+    public CellStyle getTemplateStyles(boolean isSingle, ExcelForEachParams excelForEachParams) {
+        return null;
+    }
     /**
      * 初始化--大标题样式
      *
@@ -98,6 +123,7 @@ public class Style_xls implements IExcelExportStyler {
         style.setFont(getFont(workbook, FONT_SIZE_ELEVEN, false));
         //背景色
         style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        //填充背景色
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         return style;
     }
@@ -109,7 +135,7 @@ public class Style_xls implements IExcelExportStyler {
          */
         private CellStyle initStyles (Workbook workbook){
             CellStyle style = getBaseCellStyle(workbook);
-            style.setFont(getFont(workbook, FONT_SIZE_TEN, false));
+            style.setFont(getFont(workbook, FONT_SIZE_FIVE, false));
             style.setDataFormat(STRING_FORMAT);
             return style;
         }
