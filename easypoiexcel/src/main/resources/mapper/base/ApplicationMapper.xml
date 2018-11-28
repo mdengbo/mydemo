@@ -96,10 +96,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, app_id, app_secret, index_url, name_, logo_url, desc_, code_, order_no, app_type, 
-    type_, provider_, status_, random_str, create_user, create_time, update_user, update_time, 
-    org_id, org_system_code, org_name, reduce_time, reduce_cost, original_time, original_cost, 
-    is_fast_app, biz_config_id, hots_count, reduce_build_cost, reduce_use_cost, reduce_protect_cost, 
+    id, app_id, app_secret, index_url, name_, logo_url, desc_, code_, order_no, app_type,
+    type_, provider_, status_, random_str, create_user, create_time, update_user, update_time,
+    org_id, org_system_code, org_name, reduce_time, reduce_cost, original_time, original_cost,
+    is_fast_app, biz_config_id, hots_count, reduce_build_cost, reduce_use_cost, reduce_protect_cost,
     public_is, service_id, full_root_path
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.easypoiexcel.rep.example.ApplicationExample" >
@@ -117,7 +117,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from c_application
     where id = #{id,jdbcType=BIGINT}
@@ -133,29 +133,29 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.example.easypoiexcel.entity.Application" >
-    insert into c_application (id, app_id, app_secret, 
-      index_url, name_, logo_url, 
-      desc_, code_, order_no, 
-      app_type, type_, provider_, 
-      status_, random_str, create_user, 
-      create_time, update_user, update_time, 
-      org_id, org_system_code, org_name, 
-      reduce_time, reduce_cost, original_time, 
-      original_cost, is_fast_app, biz_config_id, 
-      hots_count, reduce_build_cost, reduce_use_cost, 
-      reduce_protect_cost, public_is, service_id, 
+    insert into c_application (id, app_id, app_secret,
+      index_url, name_, logo_url,
+      desc_, code_, order_no,
+      app_type, type_, provider_,
+      status_, random_str, create_user,
+      create_time, update_user, update_time,
+      org_id, org_system_code, org_name,
+      reduce_time, reduce_cost, original_time,
+      original_cost, is_fast_app, biz_config_id,
+      hots_count, reduce_build_cost, reduce_use_cost,
+      reduce_protect_cost, public_is, service_id,
       full_root_path)
-    values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, 
-      #{indexUrl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{logoUrl,jdbcType=VARCHAR}, 
-      #{desc,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER}, 
-      #{appType,jdbcType=SMALLINT}, #{type,jdbcType=VARCHAR}, #{provider,jdbcType=VARCHAR}, 
-      #{status,jdbcType=BIT}, #{randomStr,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{orgId,jdbcType=VARCHAR}, #{orgSystemCode,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
-      #{reduceTime,jdbcType=DOUBLE}, #{reduceCost,jdbcType=INTEGER}, #{originalTime,jdbcType=DOUBLE}, 
-      #{originalCost,jdbcType=INTEGER}, #{isFastApp,jdbcType=CHAR}, #{bizConfigId,jdbcType=BIGINT}, 
-      #{hotsCount,jdbcType=INTEGER}, #{reduceBuildCost,jdbcType=INTEGER}, #{reduceUseCost,jdbcType=INTEGER}, 
-      #{reduceProtectCost,jdbcType=INTEGER}, #{publicIs,jdbcType=BIT}, #{serviceId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR},
+      #{indexUrl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{logoUrl,jdbcType=VARCHAR},
+      #{desc,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{orderNo,jdbcType=INTEGER},
+      #{appType,jdbcType=SMALLINT}, #{type,jdbcType=VARCHAR}, #{provider,jdbcType=VARCHAR},
+      #{status,jdbcType=BIT}, #{randomStr,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP},
+      #{orgId,jdbcType=VARCHAR}, #{orgSystemCode,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR},
+      #{reduceTime,jdbcType=DOUBLE}, #{reduceCost,jdbcType=INTEGER}, #{originalTime,jdbcType=DOUBLE},
+      #{originalCost,jdbcType=INTEGER}, #{isFastApp,jdbcType=CHAR}, #{bizConfigId,jdbcType=BIGINT},
+      #{hotsCount,jdbcType=INTEGER}, #{reduceBuildCost,jdbcType=INTEGER}, #{reduceUseCost,jdbcType=INTEGER},
+      #{reduceProtectCost,jdbcType=INTEGER}, #{publicIs,jdbcType=BIT}, #{serviceId,jdbcType=VARCHAR},
       #{fullRootPath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.easypoiexcel.entity.Application" >

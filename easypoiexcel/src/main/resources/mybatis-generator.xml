@@ -1,3 +1,4 @@
+<!--
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
@@ -9,7 +10,7 @@
             <property name="suppressDate" value="true"/>
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
-        <!--数据库链接地址账号密码-->
+        &lt;!&ndash;数据库链接地址账号密码&ndash;&gt;
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/gxqpt_file_test"
                         userId="root"
@@ -18,7 +19,7 @@
         <javaTypeResolver>
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
-        <!--生成Model类存放位置-->
+        &lt;!&ndash;生成Model类存放位置&ndash;&gt;
         <javaModelGenerator
                             targetPackage="com.example.easypoiexcel.entity"
                             targetProject="src/main/java"
@@ -27,21 +28,21 @@
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
-        <!--生成映射文件存放位置-->
+        &lt;!&ndash;生成映射文件存放位置&ndash;&gt;
         <sqlMapGenerator targetPackage="mapper.base" targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
-        <!--生成Dao类存放位置-->
-        <!-- 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码
+        &lt;!&ndash;生成Dao类存放位置&ndash;&gt;
+        &lt;!&ndash; 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码
                 type="ANNOTATEDMAPPER",生成Java Model 和基于注解的Mapper对象
                 type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
                 type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
-        -->
+        &ndash;&gt;
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.easypoiexcel.rep.dao" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-        <!--生成对应表及类名-->
-        <!--<table tableName="f_file_usernum" domainObjectName="FileUserNum"></table>-->
+        &lt;!&ndash;生成对应表及类名&ndash;&gt;
+        &lt;!&ndash;<table tableName="f_file_usernum" domainObjectName="FileUserNum"></table>&ndash;&gt;
         <table tableName="c_application" domainObjectName="Application"></table>
     </context>
-</generatorConfiguration>
+</generatorConfiguration>-->
