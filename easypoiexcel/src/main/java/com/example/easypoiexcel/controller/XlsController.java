@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import com.example.easypoiexcel.StyleAttr.Style_xls;
 import com.example.easypoiexcel.comm.SheetsAttr;
 import com.example.easypoiexcel.entity.Application;
 import com.example.easypoiexcel.entity.FileUserNum;
@@ -13,6 +14,7 @@ import com.example.easypoiexcel.rep.service.api.FileUSerNumService;
 import com.example.easypoiexcel.utils.FileUtil;
 import com.example.easypoiexcel.utils.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,13 +32,13 @@ import java.util.List;
 /**
  * @author madengbo
  * @create 2018-11-27 09:54
- * @desc
+ * @desc .xls 类型导出
  * @Version 1.0
  **/
 @RestController
-@RequestMapping("/fileController")
+@RequestMapping("/xls")
 @Slf4j
-public class FileUserNumController {
+public class XlsController {
 
     @Autowired
     FileUSerNumService fileUSerNumService;
@@ -102,6 +104,7 @@ public class FileUserNumController {
 
         List<AppFileDTO> allApp = applicationService.getAllAppFile();
         try {
+            //xls
             FileUtil.exportExcel(allApp, "应用文件下载月报统计", "文件统计", AppFileDTO.class, "AppFileDTO.xls", response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,13 +128,15 @@ public class FileUserNumController {
 
         List<AppFileDTO> allApp = applicationService.getAllAppFile();
         //导出的一些参数设置
-        ExportParams params = new ExportParams();
-        fileName = "allApp.xlsx";
+        fileName = "allApp.xls";
         saveFile = filePath + fileName;
         try {
             //Workbook workbook = ExcelExportUtil.exportExcel(params, AppFileDTO.class, allApp);
             //设置文件名 文件标题
-            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("对应应用的文件", "文件月下载量"),
+            ExportParams exportParams = new ExportParams("对应应用的文件", "文件月下载量");
+            //设置style
+
+            Workbook workbook = ExcelExportUtil.exportExcel(exportParams,
                     AppFileDTO.class, allApp);
 
             FileOutputStream fos = new FileOutputStream(
@@ -209,7 +214,7 @@ public class FileUserNumController {
     public void exportMutiExcel(HttpServletResponse response) {
 
         //设置表名
-        //fileName = "AllFile.xls";
+        fileName = "文件数量导出.xlsx";
 
         List<FileUserNum> fileUserNums = fileUSerNumService.getAllNum();
         List<Application> allApp = applicationService.getAllApp();
@@ -236,3 +241,11 @@ public class FileUserNumController {
     }
 
 }
+
+/**
+ * 1， 导入： 考虑上传导入  （注意乱码问题） ok
+ * 2， 导出pdf
+ * 3， 过时 工具类 找到替换的方法
+ * 4， 支持导出的格式  csv xlsx ....
+ * 5,  导出/导入文件名 乱码问题。
+ */
