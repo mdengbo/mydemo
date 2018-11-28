@@ -2,46 +2,40 @@ package com.example.easypoiexcel.comm;
 
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * @Author:mdengbo 2018/11/28
+ * 多文件属性设置
+ * */
 public class SheetsAttr {
 
-    /**
-     * 包含一些文件属性 title name
-     * */
-    private ExportParams exportParams;
+    private List<Map<String, Object>> sheets = new ArrayList<>() ;
 
-    /** map 中的属性
-     * title的参数为ExportParams类型，目前仅仅在ExportParams中设置了sheetName
-        dataMap1.put("title",params1) ;
-     模版导出对应得实体类型
-        dataMap1.put("entity",FileUserNum .class) ;
-     sheet中要填充得数据
-        dataMap1.put("data",fileUserNums) ;
-     */
 
-    private Map map = new HashMap<>();
-
-    public ExportParams getExportParams() {
-        return exportParams;
-    }
-
-    public void setExportParams(ExportParams exportParams) {
-        this.exportParams = exportParams;
-    }
-
-    public Map getMap() {
-        return map;
+    public List<Map<String, Object>> getListMap() {
+        return sheets;
     }
     /**
      * 通过setMap 设置各个属性
      * */
-    public  void setMap(ExportParams exportParams, Class<?> pojoClass, List<?> dateLists) {
-        this.exportParams = exportParams;
-        this.map.put("title",exportParams);
-        this.map.put("entity",pojoClass);
-        this.map.put("data",dateLists);
+    public void addListMap(ExportParams exportParams, Class<?> pojoClass, List<?> dateLists) {
+        /** map 中的属性
+         * title的参数为ExportParams类型，目前仅仅在ExportParams中设置了sheetName
+         dataMap1.put("title",params1) ;
+         模版导出对应得实体类型
+         dataMap1.put("entity",FileUserNum .class) ;
+         sheet中要填充得数据
+         dataMap1.put("data",fileUserNums) ;
+         */
+        Map map = new HashMap<>();
+        map.put("title",exportParams);
+        map.put("entity",pojoClass);
+        map.put("data",dateLists);
+        sheets.add(map);
     }
+
+
 }
