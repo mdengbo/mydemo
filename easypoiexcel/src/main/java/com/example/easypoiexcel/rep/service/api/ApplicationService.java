@@ -1,5 +1,6 @@
 package com.example.easypoiexcel.rep.service.api;
 
+import com.example.easypoiexcel.entity.AppAndFile;
 import com.example.easypoiexcel.entity.Application;
 import com.example.easypoiexcel.entity.FileUserNum;
 import com.example.easypoiexcel.excelDTO.AppFileDTO;
@@ -21,4 +22,5 @@ public interface ApplicationService {
 
     List<AppFileDTO> getAllAppFile();
 
+    List<AppAndFile> selectAppAndFile();
 }

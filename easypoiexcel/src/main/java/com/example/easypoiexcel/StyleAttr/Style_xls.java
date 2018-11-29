@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author madengbo
  * @create 2018-11-28 17:32
- * @desc
+ * @desc  .xls  .xlsx 导出文本样式 utils
  * @Version 1.0
  **/
 @Slf4j
@@ -19,13 +19,15 @@ public class Style_xls implements IExcelExportStyler {
 
     private static final short STRING_FORMAT = (short) BuiltinFormats.getBuiltinFormat("TEXT");
 
-    private static final short FONT_SIZE_FIVE= 10;
+    private static final short FONT_SIZE_FIVE= 5;
 
     private static final short FONT_SIZE_TEN = 10;
 
     private static final short FONT_SIZE_ELEVEN = 11;
 
     private static final short FONT_SIZE_TWELVE = 12;
+
+    private static final short FONT_SIZE_TWETY = 20;
     /**
      * 大标题样式
      */
@@ -135,7 +137,7 @@ public class Style_xls implements IExcelExportStyler {
          */
         private CellStyle initStyles (Workbook workbook){
             CellStyle style = getBaseCellStyle(workbook);
-            style.setFont(getFont(workbook, FONT_SIZE_FIVE, false));
+            style.setFont(getFont(workbook, FONT_SIZE_TEN, false));
             style.setDataFormat(STRING_FORMAT);
             return style;
         }

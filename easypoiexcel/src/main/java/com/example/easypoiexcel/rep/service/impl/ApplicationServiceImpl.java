@@ -1,5 +1,6 @@
 package com.example.easypoiexcel.rep.service.impl;
 
+import com.example.easypoiexcel.entity.AppAndFile;
 import com.example.easypoiexcel.entity.Application;
 import com.example.easypoiexcel.excelDTO.AppFileDTO;
 import com.example.easypoiexcel.rep.dao.ApplicationMapper;
@@ -36,5 +37,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Override
     public List<AppFileDTO> getAllAppFile() {
         return applicationMapper.getAppFile();
+    }
+
+    @Override
+    public List<AppAndFile> selectAppAndFile() {
+
+        return applicationMapper.selectAppAndFile();
     }
 }

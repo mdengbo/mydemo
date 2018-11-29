@@ -1,5 +1,6 @@
 package com.example.easypoiexcel.rep.dao;
 
+import com.example.easypoiexcel.entity.AppAndFile;
 import com.example.easypoiexcel.entity.Application;
 import com.example.easypoiexcel.excelDTO.AppFileDTO;
 import com.example.easypoiexcel.rep.example.ApplicationExample;
@@ -35,4 +36,6 @@ public interface ApplicationMapper {
     int updateByPrimaryKey(Application record);
 
     List<AppFileDTO> getAppFile();
+
+    List<AppAndFile> selectAppAndFile();
 }

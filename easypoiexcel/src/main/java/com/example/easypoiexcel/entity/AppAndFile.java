@@ -1,28 +1,32 @@
 package com.example.easypoiexcel.entity;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
-import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
 
-import java.io.Serializable;
 import java.util.Date;
 
-@SuppressWarnings("serial")
-@ExcelTarget("FileUserNum")
-public class FileUserNum implements Serializable {
+/**
+ * @author madengbo
+ * @create 2018-11-29 18:03
+ * @desc
+ * @Version 1.0
+ **/
+public class AppAndFile {
 
-    private Long id;
-
-    @Excel(name = "应用Id", height = 20, width = 30, isImportField = "true",  orderNum = "1")
+    @Excel(name = "应用Id", height = 20, width = 30, isImportField = "true",  orderNum = "0", mergeVertical = true)
     private String appId;
 
-    @Excel(name = "文件类型", height = 20, width = 30, isImportField = "true")
+    @Excel(name = "应用名称", height = 20, width = 30, isImportField = "true",  orderNum = "0", mergeVertical = true)
+    private String appName;
+
+
+    @Excel(name = "文件类型", height = 20, width = 30, orderNum = "0", isImportField = "true")
     private String type;
 
     /**
      * replace = { "视频_VIDEO", "文档_DOC" } 表示：将 video 替换为 视频， DOC 替换为 文档
      *
      * */
-    @Excel(name = "数据类型", height = 20, width = 30, replace = { "IMAGE_图片", "文档_DOC" }, isImportField = "true")
+    @Excel(name = "数据类型", height = 20, width = 30, replace = { "图片_IMAGE", "文档_DOC" }, isImportField = "true")
     private String dataType;
 
     @Excel(name = "数量", height = 20, width = 30, isImportField = "true")
@@ -32,21 +36,12 @@ public class FileUserNum implements Serializable {
      * groupName 可分组 把名字相同的合为一组 形成多级目录
      * */
 
-    @Excel(name = "出生日期", databaseFormat = "yyyy-MM", format = "yyyy/MM", isImportField = "true", width = 20)
+    @Excel(name = "出生日期",  isImportField = "true", width = 20)
     private String fyearMonth;
 
-    @Excel(name = "统计时间", databaseFormat = "yyyy-MM-dd HH:mm:ss", format = "yyyy-MM-dd", isImportField = "false", width = 20)
-    private Date createTime;
+    @Excel(name = "统计时间",  isImportField = "false", width = 20)
+    private String createTime;
 
-    private Long createUser;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getAppId() {
         return appId;
@@ -88,19 +83,19 @@ public class FileUserNum implements Serializable {
         this.fyearMonth = fyearMonth == null ? null : fyearMonth.trim();
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public Long getCreateUser() {
-        return createUser;
+    public String getAppName() {
+        return appName;
     }
 
-    public void setCreateUser(Long createUser) {
-        this.createUser = createUser;
+    public void setAppName(String appName) {
+        this.appName = appName;
     }
 }

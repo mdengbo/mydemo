@@ -106,6 +106,14 @@ public class FileUtil {
         downLoadExcel(fileName, response, workbook);
     }
 
+    /**
+     * @modify: mdengbo 2018/11/29 本地路径全路径
+     * @param filePath 上传文件路径
+     * @param  titleRows 标题所占行数 （表头位置以上可认为标题行数）
+     * @param  headerRows 表头占用行数（目的：确定 哪行数据类型与所要导入实体进行映射）
+     * @param  pojoClass 映射实体类
+     *
+     * */
     public static <T> List<T> importExcel(String filePath, Integer titleRows, Integer headerRows, Class<T> pojoClass) throws Exception {
         if (StringUtils.isBlank(filePath)) {
             return null;
@@ -125,6 +133,14 @@ public class FileUtil {
         return list;
     }
 
+    /**
+     * @modify: mdengbo 2018/11/29
+     * @param file 上传文件
+     * @param file titleRows 标题占用行数
+     * @param file headerRows 表头占用行数（目的：确定 哪行数据类型与所要导入实体进行映射）
+     * @param file pojoClass 映射实体类
+     *
+     * */
     public static <T> List<T> importExcel(MultipartFile file, Integer titleRows, Integer headerRows, Class<T> pojoClass) throws Exception {
         if (file == null) {
             return null;
@@ -142,6 +158,5 @@ public class FileUtil {
         }
         return list;
     }
-
 
 }

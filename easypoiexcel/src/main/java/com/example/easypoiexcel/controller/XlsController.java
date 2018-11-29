@@ -4,7 +4,6 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
-import cn.afterturn.easypoi.excel.export.styler.ExcelExportStylerColorImpl;
 import com.example.easypoiexcel.StyleAttr.Style_xls;
 import com.example.easypoiexcel.comm.SheetsAttr;
 import com.example.easypoiexcel.entity.Application;
@@ -15,17 +14,17 @@ import com.example.easypoiexcel.rep.service.api.FileUSerNumService;
 import com.example.easypoiexcel.utils.FileUtil;
 import com.example.easypoiexcel.utils.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -93,6 +92,27 @@ public class XlsController {
             e.printStackTrace();
         }
         //也可以使用MultipartFile,使用 FileUtil.importExcel(MultipartFile file, Integer titleRows, Integer headerRows, Class<T> pojoClass)导入
+
+    }
+
+    /**
+     * 页面上传导入
+     */
+    @RequestMapping(value = "/importExcel02", method = RequestMethod.POST)
+    public void importExcel02(HttpServletRequest request, HttpServletResponse response) {
+        //解析excel，
+        try {
+
+            MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+            MultipartFile multipartFile = multipartRequest.getFile("files");
+
+            List<FileUserNum> fileUserNum = FileUtil.importExcel(multipartFile, 4, 1, FileUserNum.class);
+
+            log.info("导入数据一共 {} 行", fileUserNum.size());
+            //TODO 保存数据库
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -247,8 +267,8 @@ public class XlsController {
 
 /**
  * 1， 导入： 考虑上传导入  （注意乱码问题） ok
- * 2， 导出pdf
- * 3， 过时 工具类 找到替换的方法
- * 4， 支持导出的格式  csv xlsx ....
- * 5,  导出/导入文件名 乱码问题。
+ * 2， 导出pdf ok
+ * 3， 过时 工具类 找到替换的方法  ok
+ * 4， 支持导出的格式  csv xlsx ....  ok
+ * 5,  导出/导入文件名 乱码问题。 ok
  */
