@@ -12,24 +12,24 @@ import java.util.Date;
  **/
 public class AppAndFile {
 
-    @Excel(name = "应用Id", height = 20, width = 30, isImportField = "true",  orderNum = "0", mergeVertical = true)
+    @Excel(name = "应用Id", height = 20, width = 30, isImportField = "true",  orderNum = "6", mergeVertical = true)
     private String appId;
 
-    @Excel(name = "应用名称", height = 20, width = 30, isImportField = "true",  orderNum = "0", mergeVertical = true)
+    @Excel(name = "应用名称", height = 20, width = 30, isImportField = "true",  orderNum = "5", mergeVertical = true)
     private String appName;
 
 
-    @Excel(name = "文件类型", height = 20, width = 30, orderNum = "0", isImportField = "true")
+    @Excel(name = "文件类型", height = 20, width = 30, orderNum = "4", isImportField = "true")
     private String type;
 
     /**
      * replace = { "视频_VIDEO", "文档_DOC" } 表示：将 video 替换为 视频， DOC 替换为 文档
      *
      * */
-    @Excel(name = "数据类型", height = 20, width = 30, replace = { "图片_IMAGE", "文档_DOC" }, isImportField = "true")
+    @Excel(name = "数据类型", height = 20, width = 30, orderNum = "3", replace = { "图片_IMAGE", "文档_DOC" }, isImportField = "true")
     private String dataType;
 
-    @Excel(name = "数量", height = 20, width = 30, isImportField = "true")
+    @Excel(name = "数量", height = 20, width = 30, orderNum = "2", isImportField = "true")
     private String num;
 
     /**

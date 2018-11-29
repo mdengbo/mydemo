@@ -22,8 +22,7 @@ public class AppFileDTO implements Serializable {
     @Excel(name = "应用名称", orderNum = "2", needMerge = true )
     private String name;
     /**
-     * orderNum = "6" 表示该列从第几列开始输入 默认/不填 从 0 列开始
-     * 如果orderNum超过实际需要的列 则从实际列开始（假如只需要3列即可  当填 orderNum =4 仍然从第 3 列开始）
+     * orderNum = "" 表示按照数字的大小来进行列的排序
      * */
     @ExcelCollection(name = "应用文件月统计", orderNum = "2")
     private List<FileUserNum> fileUserNums;

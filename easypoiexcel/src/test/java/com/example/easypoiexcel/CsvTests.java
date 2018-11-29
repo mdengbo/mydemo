@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,11 +71,12 @@ public class CsvTests {
 
         CsvImportParams params = new CsvImportParams(CsvImportParams.UTF8);
         String filePath="D:\\excel\\FileUserNum.csv";
-
+        params.setTitleRows(1);
+        params.setHeadRows(0);
         try {
             List<FileUserNum> fileUserNums = CsvImportUtil.importCsv(new FileInputStream(new File(filePath)), FileUserNum.class, params);
             //todo save data
-            log.info("导出完成");
+            log.info("导出完成 num: {}",fileUserNums.size());
         } catch (Exception e) {
             log.error("导出异常 exception: {}", e);
             e.printStackTrace();
