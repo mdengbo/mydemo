@@ -2,6 +2,7 @@ package com.example.easypoiexcel;
 
 import cn.afterturn.easypoi.pdf.PdfExportUtil;
 import cn.afterturn.easypoi.pdf.entity.PdfExportParams;
+import com.example.easypoiexcel.StyleAttr.Style_pdf;
 import com.example.easypoiexcel.entity.FileUserNum;
 import com.example.easypoiexcel.rep.service.api.FileUSerNumService;
 import com.itextpdf.text.Document;
@@ -39,6 +40,9 @@ public class PdfTests {
         try {
             File file = new File("D:/excel/testExportPdf.pdf");
             file.createNewFile();
+            //设置样式
+            Style_pdf stylePdf = new Style_pdf();
+            params.setStyler(stylePdf);
             Document document =  PdfExportUtil.exportPdf(params, FileUserNum.class, FileUserNums,new FileOutputStream(file));
             log.info("导出完成");
         } catch (Exception e) {

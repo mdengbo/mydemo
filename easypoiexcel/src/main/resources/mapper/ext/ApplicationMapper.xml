@@ -24,4 +24,19 @@
         where file.app_id = #{app_id, jdbcType=VARCHAR}
     </select>
 
+    <select id="selectAppAndFile" resultType="com.example.easypoiexcel.entity.AppAndFile">
+        SELECT
+            app.app_id appId,
+            app.name_ appName,
+            IF(LENGTH(file.type)&gt;0, file.type ,"---") type,
+            IF(LENGTH(file.data_type)&gt;0, file.type ,"---") dataType,
+            IF(LENGTH(file.num)&gt;0, file.num ,"---") num,
+            IF(LENGTH(file.fyear_month)&gt;0, file.fyear_month ,"---") fyearMonth,
+            IF(LENGTH(file.create_time)&gt;0, file.create_time ,"---") createTime
+        FROM c_application app
+        LEFT JOIN f_file_usernum file
+        ON app.app_id = file.app_id
+        ORDER BY appId
+    </select>
+
 </mapper>

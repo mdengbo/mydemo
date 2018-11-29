@@ -15,6 +15,19 @@ spring:
     #sql-script-encoding: utf-8
     #sql语句 以 ；未结束符
     #separator: ;
+  #thymeleaf模板配置
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+#热部署文件，页面不产生缓存，及时更新
+    cache: false
+#定义静态资源路径
+  mvc:
+      static-path-pattern: /static/**
+      view:
+        suffix: .html
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
