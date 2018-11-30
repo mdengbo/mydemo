@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+
+<form id="uploadForm" target="frameFile" class="bs-docs-example form-horizontal" method="post" action="/xls/importExcel02" enctype="multipart/form-data">
+    <input type="hidden" id="conId" name="conId" value="<%=conId%>">
+    <input type="hidden" id="code" name="code" value="<%=code%>">
+    <input type="hidden" name="method" value="insertUserInfo">
+    <table cellpadding="0" cellspacing="0" border="0" style="width:600px;margin:20px auto;text-algin:left;">
+        <tr><td colspan="4"><input id="dyId" type="hidden"/></td></tr>
+        <tr><td colspan="3"><input id="files" name="files" type="file" style="width:200px;"/></td></tr>
+        <tr><td colspan="4"><br/></td></tr>
+        <tr>
+            <td colspan="4" style="text-align: center;">
+                <hr style="width:720px;border-width: 0.3px;margin-left:-10px;">
+                <button id="tiJiao" type="button" class="czbtn" style="width:100px;font-size: 16px;" >导入</button>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<script type="text/javascript">
+
+    $("#tiJiao").click(function(){
+        if($("#files").val() == ""){
+            alert("请选择要上传的文件");
+        }else{
+            $("#tkDiv").hide();
+            $("#tk1").hide();
+            $("#uploadForm").submit();
+        }
+    })
+
+</script>
+
+
+</body>
+</html>

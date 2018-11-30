@@ -163,7 +163,7 @@ public class XlsController {
 
 
             FileOutputStream fos = new FileOutputStream(
-                    //FileUtilTest.getWebRootPath("import/sameName.xls")
+                    //FileUtilTest.getWebRootPath("public/sameName.xls")
                     saveFile
             );
             workbook.write(fos);
@@ -193,7 +193,7 @@ public class XlsController {
 
         List<FileUserNum> FileUserNums = fileUSerNumService.getAllNum();
         //引入模板
-        TemplateExportParams params = new TemplateExportParams("import/FileUserNum.xls", true);
+        TemplateExportParams params = new TemplateExportParams("public/xls/FileUserNum.xls", true);
         Workbook workbook = ExcelExportUtil.exportExcel(params, FileUserNum.class, FileUserNums, new HashMap<>());
         File savefile = new File(filePath);
         if (!savefile.exists()) {
@@ -217,7 +217,7 @@ public class XlsController {
 
         fileName = "appAllList.xls";
         saveFile = filePath + fileName;
-        String templateUrl = "import/FileUserNum.xls";
+        String templateUrl = "public/xls/FileUserNum.xls";
 
         List<FileUserNum> FileUserNums = fileUSerNumService.getAllNum();
         //引入模板

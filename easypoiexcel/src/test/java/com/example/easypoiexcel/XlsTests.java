@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -63,7 +62,7 @@ public class XlsTests {
 
     /****************************
      *
-     * 导入 import
+     * 导入 public
      *
      ******************* */
     @Test
@@ -109,7 +108,7 @@ public class XlsTests {
                     AppFileDTO.class, allApp);
 
             FileOutputStream fos = new FileOutputStream(
-                    //FileUtilTest.getWebRootPath("import/sameName.xls")
+                    //FileUtilTest.getWebRootPath("public/sameName.xls")
                     saveFile
             );
             workbook.write(fos);
@@ -176,7 +175,7 @@ public class XlsTests {
 
         List<FileUserNum> FileUserNums = fileUSerNumService.getAllNum();
         //引入模板
-        TemplateExportParams params = new TemplateExportParams("import/FileUserNum.xls", true);
+        TemplateExportParams params = new TemplateExportParams("public/xls/FileUserNum.xls", true);
         //根据模板设置数据写入位置
         //设置表头开始位置
         params.setHeadingStartRow(1);
