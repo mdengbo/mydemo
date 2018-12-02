@@ -26,7 +26,7 @@ import java.util.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j
-public class TestListToMap {
+public class WordTest {
 
     @Autowired
     FileUSerNumService fileUSerNumService;
@@ -45,7 +45,13 @@ public class TestListToMap {
     public void SimpleWordExport() {
         List<FileUserNum> allNum = fileUSerNumService.getAllNum();
         Map<String, Object> map = new HashMap<String, Object>();
+        /**
+         *
+         * 对于直接 存放参数 list 使用$fe 遍历是 应加上 t.属性
+         * 如若通过 new ExcelListEntity() 可忽略
+         * */
         //map.put("FileUserNums",new ExcelListEntity(allNum, FileUserNum.class));
+
         map.put("FileUserNums",allNum);
         try {
             File savefile = new File("D:\\excel\\word");

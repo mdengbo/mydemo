@@ -4,6 +4,7 @@ import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import com.example.easypoiexcel.StyleAttr.ExcelExportStatisticStyler;
 import com.example.easypoiexcel.StyleAttr.Style_xls;
 import com.example.easypoiexcel.entity.AppAndFile;
 import com.example.easypoiexcel.entity.FileUserNum;
@@ -102,7 +103,8 @@ public class XlsTests {
             //设置文件名 文件标题 ,ExcelType.XSSF/ExcelType.HSSF=》可以导出 .xlsx  office7 打开可能出现问题
             ExportParams exportParams = new ExportParams("对应应用的文件", "文件月下载量",ExcelType.HSSF);
             //设置style   当数据单元格为空 null 时样式不显示  可以通过定义模板导出
-            exportParams.setStyle(Style_xls.class);
+            //exportParams.setStyle(Style_xls.class);
+            exportParams.setStyle(ExcelExportStatisticStyler.class);
 
             Workbook workbook = ExcelExportUtil.exportExcel(exportParams,
                     AppFileDTO.class, allApp);
@@ -139,7 +141,6 @@ public class XlsTests {
             ExportParams exportParams = new ExportParams("对应应用的文件", "文件月下载量",ExcelType.HSSF);
             //设置style   当数据单元格为空 null 时样式不显示  可以通过定义模板导出
             exportParams.setStyle(Style_xls.class);
-
             Workbook workbook = ExcelExportUtil.exportExcel(exportParams,
                     AppAndFile.class, appAndFile);
 
