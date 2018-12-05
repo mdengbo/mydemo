@@ -52,3 +52,21 @@ CREATE TABLE `f_file_usernum` (
   `create_user` bigint(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文件文件数量表';
+
+#地区导入表
+CREATE TABLE `b_area` (
+  `id` bigint(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL COMMENT '名称',
+  `code` varchar(64) CHARACTER SET utf8 DEFAULT NULL COMMENT '地区编码',
+  `full_name` varchar(255) DEFAULT NULL COMMENT '全名',
+  `order_num` int(11) DEFAULT NULL COMMENT '排序',
+  `parent_id` bigint(11) DEFAULT NULL COMMENT '父id',
+  `tree_path` varchar(255) DEFAULT NULL COMMENT '路径',
+  `longitude` varchar(255) DEFAULT NULL COMMENT '经度',
+  `latitude` varchar(255) DEFAULT NULL COMMENT '维度',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_user` bigint(11) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_user` bigint(11) DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='地区表';
