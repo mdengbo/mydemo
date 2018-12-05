@@ -29,7 +29,7 @@ spring:
       view:
         suffix: .html
   resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/, classpath:/public/
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/, classpath:/static/, classpath:/public/**
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
