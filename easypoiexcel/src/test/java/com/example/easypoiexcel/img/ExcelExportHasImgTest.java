@@ -21,8 +21,24 @@ public class ExcelExportHasImgTest {
 
     List<ExportImgModel> list;
 
+    /**
+     * 对应 实体 ExportImgModel 中 imageType = 1
+     * */
+    //@Before
+    public void initData01() {
+        list = new ArrayList<>();
+        list.add(new ExportImgModel("百度", "public/imgs/company/ali.png", "北京市海淀区西北旺东路10号院百度科技园1号楼"));
+        list.add(new ExportImgModel("阿里巴巴", "public/imgs/company/baidu.png", "帅胡歌我"));
+        list.add(new ExportImgModel("Lemur", "public/imgs/company/lemur.png", "你是来搞笑的吗"));
+        list.add(new ExportImgModel("一众", "public/imgs/company/one.png", "嘿嘿嘿嘿"));
+
+    }
+
+    /**
+     * 对应 实体 ExportImgModel 中 imageType = 2
+     * */
     @Before
-    public void initData() {
+    public void initData02() {
         list = new ArrayList<>();
         list.add(new ExportImgModel("百度", "http://139.159.241.21:6080/group1/M00/00/B6/wKgANVv_TjGAVGxvAAO6SUSVk_g559.png", "北京市海淀区西北旺东路10号院百度科技园1号楼"));
         list.add(new ExportImgModel("阿里巴巴", "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2035844616,1442845443&fm=27&gp=0.jpg", "帅胡歌我"));
