@@ -101,7 +101,8 @@ public class XlsTests {
         try {
             //Workbook workbook = ExcelExportUtil.exportExcel(params, AppFileDTO.class, allApp);
             //设置文件名 文件标题 ,ExcelType.XSSF/ExcelType.HSSF=》可以导出 .xlsx  office7 打开可能出现问题
-            ExportParams exportParams = new ExportParams("对应应用的文件", "文件月下载量",ExcelType.HSSF);
+            //ExportParams exportParams = new ExportParams("对应应用的文件", "文件月下载量",ExcelType.HSSF);
+            ExportParams exportParams = new ExportParams("文件月下载量",ExcelType.HSSF);
             //设置style   当数据单元格为空 null 时样式不显示  可以通过定义模板导出
             //exportParams.setStyle(Style_xls.class);
             exportParams.setStyle(ExcelExportStatisticStyler.class);
