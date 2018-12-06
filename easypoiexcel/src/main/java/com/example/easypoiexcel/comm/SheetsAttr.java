@@ -18,9 +18,13 @@ public class SheetsAttr {
     public List<Map<String, Object>> getListMap() {
         return sheets;
     }
+
     /**
-     * 通过setMap 设置各个属性
-     * */
+     * @param exportParams 导出参数设置
+     * @param pojoClass 对应实体类
+     * @param dateLists 数据lists
+     */
+
     public void addListMap(ExportParams exportParams, Class<?> pojoClass, List<?> dateLists) {
         /** map 中的属性
          * title的参数为ExportParams类型，目前仅仅在ExportParams中设置了sheetName
