@@ -1,9 +1,12 @@
 package com.example.easypoiexcel;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
 import com.example.easypoiexcel.StyleAttr.ExcelExportStatisticStyler;
 import com.example.easypoiexcel.StyleAttr.Style_xls;
 import com.example.easypoiexcel.entity.AppAndFile;
@@ -14,6 +17,7 @@ import com.example.easypoiexcel.rep.service.api.FileUSerNumService;
 import com.example.easypoiexcel.utils.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -196,6 +201,32 @@ public class XlsTests {
             log.info("导出完成，文件存放路径={}", saveFile);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    @Test
+    public void test() {
+        try {
+            ImportParams params = new ImportParams();
+            params.setKeyMark("：");
+            params.setReadSingleCell(true);
+            //设置标题列（此处标题 是指映射的标题）
+            params.setTitleRows(7);
+            //LastOfInvalidRow 指的是 文件体末尾开始不需要读入 目前标题映射的中数据的行数
+            //params.setLastOfInvalidRow(8);
+            //ReadRows 表示 从标题下开始读取数据的行数  默认为 0 开始
+            params.setReadRows(9);
+            ExcelImportResult<Map> result = ExcelImportUtil.importExcelMore(
+                    new File("public/word/业务委托单.xlsx"),
+                    Map.class, params);
+            for (int i = 0; i < result.getList().size(); i++) {
+                System.out.println(result.getList().get(i));
+            }
+            Assert.assertTrue(result.getList().size() == 10);
+            System.out.println(result.getMap());
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
         }
     }
 
