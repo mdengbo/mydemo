@@ -6,9 +6,11 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.TemplateExportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
+import cn.afterturn.easypoi.word.WordExportUtil;
 import com.example.easypoiexcel.comm.SheetsAttr;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -70,6 +72,19 @@ public class FileUtil {
 
     public static void exportExcel(List<Map<String, Object>> list, String fileName, HttpServletResponse response) throws Exception {
         defaultExport(list, fileName, response);
+    }
+
+    /**
+     * @Author: mdengbo 2018/12/06
+     * @desc  web 端通过模板导出07版本 word
+     * @param response  响应
+     * @param fileName  导出文件名
+     * @param templateUrl 模板地址
+     * @param map 解析数据源
+     */
+    public static void exportWordTemnplate07(String fileName, String templateUrl, Map<String, Object> map, HttpServletResponse response) throws Exception {
+        XWPFDocument doc = WordExportUtil.exportWord07(templateUrl, map);
+        downLoadWord(fileName, response, doc);
     }
 
     private static void defaultExport(List<?> list, Class<?> pojoClass, String fileName, HttpServletResponse response, ExportParams exportParams) throws Exception {
@@ -157,6 +172,17 @@ public class FileUtil {
             throw new Exception(e.getMessage());
         }
         return list;
+    }
+
+    private static void downLoadWord(String fileName, HttpServletResponse response, XWPFDocument doc) throws Exception {
+        try {
+            response.setCharacterEncoding("UTF-8");
+            response.setHeader("content-Type", "application/msword");
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+            doc.write(response.getOutputStream());
+        } catch (IOException e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
 }

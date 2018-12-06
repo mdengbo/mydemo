@@ -1,5 +1,6 @@
 package com.example.easypoiexcel.word;
 
+import cn.afterturn.easypoi.entity.ImageEntity;
 import cn.afterturn.easypoi.word.WordExportUtil;
 import cn.afterturn.easypoi.word.entity.params.ExcelListEntity;
 import com.example.easypoiexcel.Utils.ListToMapUtils;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -27,6 +29,8 @@ import java.util.*;
 @SpringBootTest
 @Slf4j
 public class WordTest {
+
+    private static SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd");
 
     @Autowired
     FileUSerNumService fileUSerNumService;
@@ -81,6 +85,32 @@ public class WordTest {
             XWPFDocument doc = WordExportUtil.exportWord07(
                     "public/word/singleFileUserNum.docx", map);
             FileOutputStream fos = new FileOutputStream("D:/excel/word/singleFileUserNums.docx");
+            doc.write(fos);
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 简单导出包含图片
+     */
+    @Test
+    public void imageWordExport() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("department", "");
+        map.put("person", "JueYue");
+        map.put("time", format.format(new Date()));
+        ImageEntity image = new ImageEntity();
+        image.setHeight(200);
+        image.setWidth(500);
+        image.setUrl("public/imgs/word/testCode.png");
+        image.setType(ImageEntity.URL);
+        map.put("testCode", image);
+        try {
+            XWPFDocument doc = WordExportUtil.exportWord07(
+                    "public/word/Image.docx", map);
+            FileOutputStream fos = new FileOutputStream("D:/excel/image/image.docx");
             doc.write(fos);
             fos.close();
         } catch (Exception e) {
