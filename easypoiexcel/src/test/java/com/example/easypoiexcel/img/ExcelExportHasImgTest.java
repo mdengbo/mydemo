@@ -3,6 +3,7 @@ package com.example.easypoiexcel.img;
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import com.example.easypoiexcel.entity.ExportImgModel;
+import com.example.easypoiexcel.entity.ExportImgModel01;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,9 +21,26 @@ import java.util.List;
 public class ExcelExportHasImgTest {
 
     List<ExportImgModel> list;
+    List<ExportImgModel01> list01;
 
+    /**
+     * 对应 实体 ExportImgModel 中 imageType = 1
+     * */
     @Before
-    public void initData() {
+    public void initData01() {
+        list01 = new ArrayList<>();
+        list01.add(new ExportImgModel01("百度", "public/imgs/company/ali.png", "北京市海淀区西北旺东路10号院百度科技园1号楼"));
+        list01.add(new ExportImgModel01("阿里巴巴", "public/imgs/company/baidu.png", "帅胡歌我"));
+        list01.add(new ExportImgModel01("Lemur", "public/imgs/company/lemur.png", "你是来搞笑的吗"));
+        list01.add(new ExportImgModel01("一众", "public/imgs/company/one.png", "嘿嘿嘿嘿"));
+
+    }
+
+    /**
+     * 对应 实体 ExportImgModel 中 imageType = 2
+     * */
+    @Before
+    public void initData02() {
         list = new ArrayList<>();
         list.add(new ExportImgModel("百度", "http://139.159.241.21:6080/group1/M00/00/B6/wKgANVv_TjGAVGxvAAO6SUSVk_g559.png", "北京市海淀区西北旺东路10号院百度科技园1号楼"));
         list.add(new ExportImgModel("阿里巴巴", "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2035844616,1442845443&fm=27&gp=0.jpg", "帅胡歌我"));
