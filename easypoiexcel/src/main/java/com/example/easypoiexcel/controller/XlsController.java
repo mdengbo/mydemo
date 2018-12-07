@@ -28,6 +28,7 @@ import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author madengbo
@@ -194,7 +195,13 @@ public class XlsController {
         List<FileUserNum> FileUserNums = fileUSerNumService.getAllNum();
         //引入模板
         TemplateExportParams params = new TemplateExportParams("public/xls/FileUserNum.xls", true);
-        Workbook workbook = ExcelExportUtil.exportExcel(params, FileUserNum.class, FileUserNums, new HashMap<>());
+
+        //不推荐 可能出血样式问题
+        //Workbook workbook = ExcelExportUtil.exportExcel(params, FileUserNum.class, FileUserNums, new HashMap<>());
+
+        Map<String, Object> map = new HashMap<>();
+        Workbook workbook = ExcelExportUtil.exportExcel(params, map);
+
         File savefile = new File(filePath);
         if (!savefile.exists()) {
             savefile.mkdirs();
