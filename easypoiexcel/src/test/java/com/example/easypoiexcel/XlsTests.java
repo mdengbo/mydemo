@@ -171,6 +171,10 @@ public class XlsTests {
 
     /**
      * 模板导出  保证样式 .xlsx  如果office打开可能存在问题  但是wps打开没问题  可能是模板问题
+     *
+     * 尽量避免使用 Workbook workbook = ExcelExportUtil.exportExcel(TemplateExportParams params, Class<?> pojoClass,
+     *                                        Collection<?> dataSet, Map<String, Object> map) ;
+     * 已经不推荐使用 会产生样式失效的问题
      * 注意：excel 版本
      *          07版模板.xlsx    03版  .xls
      * */
@@ -182,14 +186,20 @@ public class XlsTests {
 
         List<FileUserNum> FileUserNums = fileUSerNumService.getAllNum();
         //引入模板
-        TemplateExportParams params = new TemplateExportParams("public/xls/FileUserNum.xls", true);
+        TemplateExportParams params = new TemplateExportParams("public/xls/FileUserNum.xls", false);
         //根据模板设置数据写入位置
         //设置表头开始位置
-        params.setHeadingStartRow(1);
+        //params.setHeadingStartRow(0);
         //设置表头占用的行数 数据将从 第五行 开始写入
-        params.setHeadingRows(4);
+        params.setHeadingRows(1);
+        Map<String, Object> hashMap = new HashMap();
+        hashMap.put("FileUserNums",FileUserNums);
+        //不推荐使用
+        //ExcelExportUtil.exportExcel(params, FileUserNum.class, FileUserNums, new HashMap());
 
-        Workbook workbook = ExcelExportUtil.exportExcel(params, FileUserNum.class, FileUserNums, new HashMap());
+        //推荐
+        Workbook workbook = ExcelExportUtil.exportExcel(params, hashMap);
+
         File savefile = new File(filePath);
         if (!savefile.exists()) {
             savefile.mkdirs();
