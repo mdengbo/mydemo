@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.example.demo.entity.Almanac;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -31,6 +32,7 @@ import org.jsoup.select.Elements;
  * ---------------         -------------------         -----------------------------------
  *</pre>
  */
+@Slf4j
 public class AlmanacUtil {
 
     /**
@@ -44,7 +46,8 @@ public class AlmanacUtil {
      */
     public static Almanac getAlmanac(){
         //String url="http://tools.2345.com/rili.htm";
-        String url="https://www.gzzzb.gov.cn/cmsFront/105000";
+        //String url="https://www.gzzzb.gov.cn/cmsFront/105000";
+        String url="https://www.gzzzb.gov.cn/cmsFront/channel/105000/11051000.htm";
         String html=pickData(url);
         Almanac almanac=analyzeHTMLByString(html);
         return almanac;
@@ -97,6 +100,11 @@ public class AlmanacUtil {
         solarDate=getSolarDate();
         //农历时间
         Element eLunarDate=document.getElementById("info_nong");
+        Elements eLunarDate0=document.getElementsByClass("news-left-detail-list");
+        Elements links = eLunarDate0.select("a[href]");
+        for (Element link : links) {
+            log.info("{},----{}", link.attr("abs:href"), link.text());
+        }
         lunarDate=eLunarDate.child(0).html().substring(1,3)+eLunarDate.html().substring(11);
         //天干地支纪年法
         Element eChineseAra=document.getElementById("info_chang");
