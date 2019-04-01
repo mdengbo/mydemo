@@ -1,0 +1,6 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "loggers" #springboot 2.x 默认只是暴露/health 以及 /info 端点 而日志控制需要用到 /loggers 端点
+
