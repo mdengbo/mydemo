@@ -13,7 +13,11 @@
                                    消息队列承载体(队列)                 交换机                                 路由
                                  和后期消费方 name一直
     }                                                    
- 
+     @RabbitHandler
+    @RabbitListener(queues = RabbitConfig.QUEUE_A)//消费方的name
+    public void process(String content) {
+        log.info("处理器one接收处理队列A当中的消息： " + content);
+    }
                                                     
 通常我们谈到队列服务, 会有三个概念： 发消息者、队列、收消息者，RabbitMQ 在这个基本概念之上, 多做了一层抽象, 在发消息者和 队列之间, 加入了交换器 (Exchange). 这样发消息者和队列就没有直接联系, 转而变成发消息者把消息给交换器, 交换器根据调度策略再把消息再给队列。
 
