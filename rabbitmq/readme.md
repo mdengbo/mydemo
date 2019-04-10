@@ -3,13 +3,12 @@
 #相关概念
 
 #MQ接收事宜
-通信理解     消息的发送方（既是生产者name）   加  交换机（exchange） 加   路由（routing） 和  接收方（消费方name）  共同决定
-             
-      生产方：rabbitTemplate.convertAndSend( RabbitConfig.EXCHANGE_A, RabbitConfig.ROUTINGKEY_C,  content,         correlationId);
-                                                    交换机                     路由                发送体         消费方是否接收到回调标识
-                                                    
-中间家换季加路由传送过程
- @Bean
+
+      通信理解     消息的发送方（既是生产者name）   加  交换机（exchange） 加   路由（routing） 和  接收方（消费方name）  共同决定    
+      生产方：rabbitTemplate.convertAndSend( RabbitConfig.EXCHANGE_A, RabbitConfig.ROUTINGKEY_C,  content,        correlationId);
+                                                    交换机                     路由                发送体     消费方是否接收到回调标识                                                  
+    中间加交换机加路由传送过程
+    @Bean
     public Binding bindingB(){
         return BindingBuilder.bind(   queueA()).        to(  defaultExchange()     ).with(       RabbitConfig.ROUTINGKEY_C);
                                    消息队列承载体(队列)                 交换机                                 路由
