@@ -1,5 +1,4 @@
-#参考 https://blog.csdn.net/qq_38455201/article/details/80308771
-# https://blog.csdn.net/ztx114/article/details/78410727
+
 #相关概念
 
 #MQ接收事宜
@@ -74,4 +73,5 @@ Fanout Exchange
 
 Fanout Exchange 消息广播的模式，不管路由键或者是路由模式，会把消息发给绑定给它的全部队列，如果配置了routing_key会被忽略。
 
-
+参考 https://blog.csdn.net/qq_38455201/article/details/80308771
+https://blog.csdn.net/ztx114/article/details/78410727
