@@ -14,8 +14,5 @@
         <version>2.1.0.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <modules>
-        <module>exceldemo</module>
-    </modules>
 
 </project>
