@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+	http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+	<!-- 定义RabbitMQ的连接工厂 -->
+	<rabbit:connection-factory id="connectionFactory"
+		host="192.168.56.201" port="5672" username="admin" password="admin"
+		virtual-host="/" />
+		
+	<!-- MQ的管理，包括队列、交换器等 -->
+	<rabbit:admin connection-factory="connectionFactory" />
+
+	<!-- 定义队列，自动声明 -->
+	<rabbit:queue name="myQueue" auto-declare="true" />
+	
+	<!-- 定义交换器，自动声明 -->
+	<rabbit:fanout-exchange name="fanoutExchange" auto-declare="true">
+		<!-- 设置绑定，如果是其他两种交换机，可以设置routing key -->
+		<rabbit:bindings>
+			<rabbit:binding queue="myQueue"/>
+		</rabbit:bindings>
+	</rabbit:fanout-exchange>
+
+	<!-- 定义Rabbit模板，指定连接工厂以及定义exchange -->
+	<rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="fanoutExchange" />
+	
+	<!-- 监听者容器，可以配置多个监听者，其实就是消费者 -->
+	<rabbit:listener-container connection-factory="connectionFactory">
+		<!-- 配置一个监听者，消费消息。ref-指定监听者对象；method-处理消息的方法；queue-names-指定要绑定的队列 -->
+		<rabbit:listener ref="foo" method="listen" queue-names="myQueue" />
+	</rabbit:listener-container>
+
+	<!-- 一个普通的实体类，可以作为消费者。其中的某个方法可以作为消费消息的默认函数（之前DefaultConsumer的handleDelivery方法） -->
+	<bean id="foo" class="cn.rabbit.mq.spring.Foo" />
+
+</beans>
