@@ -1,11 +1,11 @@
-package com.example.weixingapi.Utils;
+package com.hengyunsoft.platform.biz.util;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.example.weixingapi.entity.MaterialParam;
-import com.example.weixingapi.entity.MaterialReturn;
-import com.example.weixingapi.entity.TokenParam;
+import com.example.weixingapi.Utils.DateUtils;
+import com.example.weixingapi.Utils.MyX509TrustManager;
+import com.example.weixingapi.entity.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -18,7 +18,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.URL;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +32,7 @@ import java.util.List;
  * @Version 1.0
  **/
 @Slf4j
-public class CommonUtil {
+public class WechatUtil {
 
     /**
      * 凭证获取
@@ -136,12 +140,12 @@ public class CommonUtil {
     /**
      * 获取素材列表并存入集合中
      * @param accessToken 获取接口凭证的唯一标识
-     * @param type 素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）
-     * @param offset 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
-     * @param count 返回素材的数量，取值在1到20之间
+     * @param  materialParam 素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）
+     * @param  materialParam 从全部素材的该偏移位置开始返回，0表示从第一个素材 返回
+     * @param  materialParam 返回素材的数量，取值在1到20之间
      * @return
      */
-    public static List<MaterialReturn> getMaterial(String accessToken, String type, int offset, int count) {
+    public static List<MaterialReturn> getMaterial(String accessToken, MaterialParam materialParam) {
         /**
          * 定义图文素材实体类集合
          * */
@@ -154,12 +158,8 @@ public class CommonUtil {
         //替换调access_token
         String requestUrl = MATERIAL.replace("ACCESS_TOKEN", accessToken);
         //调用接口所需要的参数实体类
-        MaterialParam para = new MaterialParam();
-        para.setType(type);
-        para.setOffset(offset);
-        para.setCount(count);
         JSONObject jsonObject = new JSONObject();
-        jsonObject = JSONObject.parseObject(para.toString());
+        jsonObject = JSONObject.parseObject(materialParam.toString());
         //将参数对象转换成json字符串
         outputStr = jsonObject.toString();
         //发送https请求(请求的路径,方式,所携带的参数)
@@ -168,29 +168,49 @@ public class CommonUtil {
         if (null != jsonObject) {
             try {
                 JSONArray jsonArray = jsonObject.getJSONArray("item");
+
                 for (int i = 0; i < jsonArray.size(); i++) {
-                    JSONObject json = (JSONObject) jsonArray.get(i);
-                    json = json.getJSONObject("content");
-                    System.out.println(json);
+                    JSONObject itemJson = (JSONObject) jsonArray.get(i);
+                    log.info("wechat 请求素材返回json:{}",itemJson);
+                    Long datatime = itemJson.getLong("update_time");
+                    Date updateTime = timestamToDatetime(datatime);
+                    //图文类型返回
+                    if(MaterialTypeEnum.NEWS.getCode().equals(materialParam.getType())){
+                        NewsReturn news = new NewsReturn();
+                        JSONObject contentJson = itemJson.getJSONObject("content");
+                        JSONArray arr = contentJson.getJSONArray("news_item");
+                        contentJson = (JSONObject) arr.get(0);
+                        String title = contentJson.getString("title");
+                        String thumbUrl = contentJson.getString("thumb_url");
+                        String author = contentJson.getString("author");
+                        String digest = contentJson.getString("digest");
+                        String thumb_media_id = contentJson.getString("thumb_media_id");
+                        String url = contentJson.getString("url");
+                        String content = contentJson.getString("content");
+                        Integer showCoverPic = contentJson.getIntValue("show_cover_pic");
+                        news.setTitle(title);
+                        news.setAuthor(author);
+                        news.setDigest(digest);
+                        news.setThumbMediaId(thumb_media_id);
+                        news.setThumbUrl(thumbUrl);
+                        news.setUrl(url);
+                        news.setContent(content);
+                        news.setUpdateTime(updateTime);
+                        news.setShowCoverPic(showCoverPic);
+                        lists.add(news);
+                    } else {
+                        //其他文本类型返回包装
+                        OtherReturn otherReturn = new OtherReturn();
+                        String mediaId = itemJson.getString("media_id");
+                        String name = itemJson.getString("name");
+                        String url = itemJson.getString("url");
+                        otherReturn.setMediaId(mediaId);
+                        otherReturn.setName(name);
+                        otherReturn.setUpdateTime(updateTime);
+                        otherReturn.setUrl(url);
+                        lists.add(otherReturn);
+                    }
 
-                    JSONArray arr = json.getJSONArray("news_item");
-                    json = (JSONObject) arr.get(0);
-
-                    MaterialReturn material = new MaterialReturn();
-                    String title = json.getString("title");
-                    String author = json.getString("author");
-                    String digest = json.getString("digest");
-                    String thumb_media_id = json.getString("thumb_media_id");
-                    String url = json.getString("url");
-                    String content = json.getString("content");
-                    material.setTitle(title);
-                    material.setAuthor(author);
-                    material.setDigest(digest);
-                    material.setThumb_media_id(thumb_media_id);
-                    material.setUrl(url);
-                    material.setContent(content);
-                    material.setShow_cover_pic(1);
-                    lists.add(material);
                 }
             } catch (JSONException e) {
                 accessToken = null;
@@ -200,4 +220,17 @@ public class CommonUtil {
         }
         return lists;
     }
+    /**
+     * @method  timestamToDatetime
+     * @description 时间错转化为 date
+     * @date: 2019/5/22 0022 15:01
+     * @author: mdengb
+     * @param timestamp 时间戳 是间隔的秒数  需转换为毫秒数
+     * @return
+     */
+    private static Date timestamToDatetime(long timestamp){
+        Instant instant = Instant.ofEpochMilli(timestamp*1000L);
+        return DateUtils.localDateTime2Date(LocalDateTime.ofInstant(instant, ZoneId.systemDefault()));
+    }
+
 }
