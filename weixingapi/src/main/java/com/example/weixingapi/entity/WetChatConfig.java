@@ -1,8 +1,19 @@
 package com.example.weixingapi.entity;
 
+/**
+ * @date: 2019/5/23 0023 10:38
+ * @author: mdengb
+ * @return
+ */
 public enum WetChatConfig {
-    APP_ID("wx85fxxx9f73653dssf16ac","WetchatConfig appId"),
-    APP_SECRET("a18e8ba2040xxxxb669009ss5e47f0c1c40d52","WetchatConfig APP_SECRET");
+    /**
+    * appId
+    * */
+    APP_ID("wx85fxxx9f73653dssf1326ac","WetchatConfig appId"),
+    /**
+     * appSecret
+    * */
+    APP_SECRET("a18e8ba2040xxxxb66932009ss53e47f0c1c40d52","WetchatConfig APP_SECRET");
     private String data;
     private String desc;
 
