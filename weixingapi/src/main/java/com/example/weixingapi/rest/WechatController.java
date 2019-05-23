@@ -4,6 +4,7 @@ import com.example.weixingapi.entity.MaterialParam;
 import com.example.weixingapi.entity.MaterialReturn;
 import com.example.weixingapi.entity.MaterialTypeEnum;
 import com.example.weixingapi.entity.TokenParam;
+import com.example.weixingapi.utils.WechatUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,7 +59,7 @@ public class WechatController {
         String accessToken = (String)mapObj;
         TokenParam token = null;
        if(null == accessToken){
-           token = com.hengyunsoft.platform.biz.util.WechatUtil.getToken(appId, appSecret);
+           token = WechatUtil.getToken(appId, appSecret);
            accessToken = token.getAccessToken();
            //通过redis 保存 accessToken 并设置定时 2 小时 失效（因为微信 accessToken  每次生成时 2h 内有效）
            valueOperations.set(redisAccessTokenKey, accessToken, 2*60*60 , TimeUnit.SECONDS);
@@ -71,7 +72,7 @@ public class WechatController {
             materialParam.setType(MaterialTypeEnum.NEWS.getCode());
         }
         //图片（image）、视频（video）、语音 （voice）、图文（news）
-        List<MaterialReturn> image = com.hengyunsoft.platform.biz.util.WechatUtil.getMaterial(accessToken, materialParam);
+        List<MaterialReturn> image = WechatUtil.getMaterial(accessToken, materialParam);
         log.info("image:{}",image.size());
         //2.验证并返回
         return image;
