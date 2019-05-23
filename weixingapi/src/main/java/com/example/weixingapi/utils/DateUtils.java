@@ -1,4 +1,4 @@
-package com.example.weixingapi.Utils;
+package com.example.weixingapi.utils;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,10 +1,8 @@
-package com.hengyunsoft.platform.biz.util;
+package com.example.weixingapi.utils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.example.weixingapi.Utils.DateUtils;
-import com.example.weixingapi.Utils.MyX509TrustManager;
 import com.example.weixingapi.entity.*;
 import lombok.extern.slf4j.Slf4j;
 

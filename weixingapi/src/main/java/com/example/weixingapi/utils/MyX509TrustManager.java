@@ -1,4 +1,4 @@
-package com.example.weixingapi.Utils;
+package com.example.weixingapi.utils;
 
 import javax.net.ssl.X509TrustManager;
 import java.security.cert.CertificateException;
