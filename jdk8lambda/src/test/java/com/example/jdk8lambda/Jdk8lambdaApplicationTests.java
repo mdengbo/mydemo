@@ -102,7 +102,7 @@ public class Jdk8lambdaApplicationTests {
 
 	@Test
 	public void test04() {
-		List<Integer> primes = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);
+		List<Integer> primes = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 26, 3, 5);
 		IntSummaryStatistics stats = primes.stream().mapToInt((x) -> x)
 				.summaryStatistics();
 		/**
@@ -111,7 +111,24 @@ public class Jdk8lambdaApplicationTests {
 		System.out.println("Lowest prime number in List : " + stats.getMin());
 		System.out.println("Sum of all prime numbers : " + stats.getSum());
 		System.out.println("Average of all prime numbers : " + stats.getAverage());
-	}
+
+		//封装的 boxssum()
+        //max()
+        //min()
+        //average() 等.
+        Stream<Integer> boxed = primes.stream().mapToInt((x) -> x).boxed();
+        Optional<Integer> max = boxed.max(Integer::compareTo);
+        log.info("max:{}",max.get());
+        //去重 转为数据流
+        List<Integer> collect1 = primes.stream().filter(b -> b > 17).distinct().collect(Collectors.toList());
+        collect1.forEach(System.out::println);
+
+        Set<Integer> collect2 = primes.stream().filter(b -> b > 17).collect(Collectors.toSet());
+        collect2.forEach(System.out::println);
+
+        List<Integer> collect = primes.stream().mapToInt((x) -> x).boxed().collect(Collectors.toList());
+
+    }
 
 	@Test
 	public void test05(){
