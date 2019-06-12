@@ -1,5 +1,6 @@
 package com.example.enumdemo;
 
+import com.example.enumdemo.EnumDemo.AppEnumWork;
 import com.example.enumdemo.EnumSingleton.EnumSingleton;
 import com.example.enumdemo.EnumSingleton.StaticInitTest;
 import lombok.extern.slf4j.Slf4j;
@@ -28,4 +29,17 @@ public class EnumdemoApplicationTests {
 		//输出结果：obj1==obj2?true
 		System.out.println("obj1==obj2 ? --->" + (obj1==obj2));
 	}
+
+	@Test
+	public void testEnumDemo(){
+
+		AppEnumWork.business.setWorkInfo("business");
+		log.info("----------");
+		AppEnumWork.valueOf("business").setWorkInfo("lalalalal");
+		AppEnumWork[] businesses = AppEnumWork.values();
+		log.info("businesses：{}",businesses[0]);
+
+	}
+
+
 }
