@@ -11,6 +11,12 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -42,4 +48,35 @@ public class WeixingapiApplicationTests {
         List<MaterialReturn> image = WechatUtil.getMaterial(accessToken, materialParam);
         log.info("image:{}",image.size());
     }
+    //本地 tls 协议支持测试
+	@Test
+	public  void test10(){
+
+		try {
+			SSLContext context = SSLContext.getInstance("TLS");
+			context.init(null, null, null);
+
+			SSLSocketFactory factory = (SSLSocketFactory) context.getSocketFactory();
+			SSLSocket socket = null;
+			socket = (SSLSocket) factory.createSocket();
+			String[] protocols = socket.getSupportedProtocols();
+
+			System.out.println("Supported Protocols: " + protocols.length);
+			for (int i = 0; i < protocols.length; i++) {
+				System.out.println(" " + protocols[i]);
+			}
+
+			protocols = socket.getEnabledProtocols();
+
+			System.out.println("Enabled Protocols: " + protocols.length);
+			for (int i = 0; i < protocols.length; i++) {
+				System.out.println(" " + protocols[i]);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+
+	}
 }
