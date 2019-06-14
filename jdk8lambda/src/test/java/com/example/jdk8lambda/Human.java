@@ -8,7 +8,6 @@ import lombok.Data;
  * @desc
  * @Version 1.0
  **/
-@Data
 public class Human {
     private String name;
     private int age;
@@ -17,10 +16,36 @@ public class Human {
         super();
     }
 
-    public Human(final String name, final int age) {
+    public Human( String name, int age) {
         super();
-
         this.name = name;
         this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String setName(String name) {
+        this.name = name;
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String setAge(int age) {
+        this.age = age;
+        return null;
+
+    }
+
+    @Override
+    public String toString() {
+        return "Human{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
     }
 }
