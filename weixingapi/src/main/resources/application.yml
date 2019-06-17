@@ -1,0 +1,4 @@
+mydemo:
+  wechat:
+    appId: a18e8bas2040xxxxb669009ss532e47f0c1c40d52 #公众号appId
+    appSecret: wx85dfxxx9f73653dssf1326ac #公众号secret

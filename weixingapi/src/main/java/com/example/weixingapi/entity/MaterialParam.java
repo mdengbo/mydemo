@@ -2,6 +2,8 @@ package com.example.weixingapi.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author madengbo
  * @create 2019-05-21 17:04
@@ -9,7 +11,7 @@ import lombok.Data;
  * @Version 1.0
  **/
 @Data
-public class MaterialParam {
+public class MaterialParam implements Serializable {
 
     /**
      * 素材的类型，图片（image）、视频（video）、语音 （voice）、图文（news）
@@ -23,6 +25,8 @@ public class MaterialParam {
      * 返回素材的数量，取值在1到20之间
      * */
     private int count;
+
+    private static final long serialVersionUID = 1L;
 
     @Override
     public String toString() {

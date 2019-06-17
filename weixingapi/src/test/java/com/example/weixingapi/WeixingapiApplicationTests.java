@@ -37,6 +37,7 @@ public class WeixingapiApplicationTests {
 	public void getMaterial() {
 		TokenParam token = WechatUtil.getToken(WetChatConfig.APP_ID.getData(), WetChatConfig.APP_SECRET.getData());
         String accessToken = token.getAccessToken();
+        //可以 考虑 redis 保存accessToken  因为微信对于请求调用有限制  对accessToken 的调用又有所 控制
         int expiresIn = token.getExpiresIn();
         log.info("access_token: {}",accessToken);
 		log.info("expires_in: {}",expiresIn);
@@ -46,6 +47,11 @@ public class WeixingapiApplicationTests {
 		materialParam.setOffset(0);
 		materialParam.setCount(10);
         List<MaterialReturn> image = WechatUtil.getMaterial(accessToken, materialParam);
+		//因为获取中含有 为发布的信息   所以需要过滤掉  保证 获取一组数据返回
+		while (image.isEmpty()){
+			materialParam.setOffset(materialParam.getOffset() + 1);
+			image = WechatUtil.getMaterial(accessToken, materialParam);
+		}
         log.info("image:{}",image.size());
     }
     //本地 tls 协议支持测试

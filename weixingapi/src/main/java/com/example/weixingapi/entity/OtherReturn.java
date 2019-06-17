@@ -11,23 +11,30 @@ import java.util.Date;
  * @Version 1.0
  **/
 @Data
-public class OtherReturn extends MaterialReturn{
+public class OtherReturn{
+
     /**
-     * 图文消息的封面图片素材id（必须是永久mediaID）
-    * */
+     *图文消息的封面图片素材id（必须是永久mediaID）
+     * */
     private String mediaId;
 
-    /**、
-     * 文件名称
+    /**
+     *文件名称
      * */
     private String name;
-    /**
-    * 文本最后更新时间
-    * */
-    private Date updateTime;
 
     /**
-     * 图文页的URL，或者，当获取的列表是图片素材列表时，该字段是图片的URL
+     *图文页的URL，或者，当获取的列表是图片素材列表时，该字段是图片的URL
      * */
     private String url;
+
+    /**
+     *该类素材总数量
+     * */
+    private Integer totalCount;
+
+    /**
+     *这篇图文消息素材的最后更新时间
+     * */
+    private Date updateTime;
 }
