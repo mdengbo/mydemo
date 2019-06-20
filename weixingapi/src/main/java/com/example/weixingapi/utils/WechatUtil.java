@@ -14,10 +14,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ConnectException;
 import java.net.URL;
 import java.time.Instant;
@@ -61,6 +58,10 @@ public class WechatUtil {
      */
     public static JSONObject httpsRequest(String requestUrl, String requestMethod, String outputStr) {
         JSONObject jsonObject = null;
+        InputStream inputStream = null;
+        InputStreamReader inputStreamReader = null;
+        BufferedReader bufferedReader = null;
+        HttpsURLConnection conn = null;
         try {
             // 创建SSLContext对象，并使用我们指定的信任管理器初始化
             TrustManager[] tm = { new MyX509TrustManager() };
@@ -70,7 +71,7 @@ public class WechatUtil {
             SSLSocketFactory ssf = sslContext.getSocketFactory();
 
             URL url = new URL(requestUrl);
-            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+            conn = (HttpsURLConnection) url.openConnection();
             conn.setSSLSocketFactory(ssf);
 
             conn.setDoOutput(true);
@@ -88,26 +89,42 @@ public class WechatUtil {
             }
 
             // 从输入流读取返回内容
-            InputStream inputStream = conn.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            inputStream = conn.getInputStream();
+            inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            bufferedReader = new BufferedReader(inputStreamReader);
             String str = null;
             StringBuffer buffer = new StringBuffer();
             while ((str = bufferedReader.readLine()) != null) {
                 buffer.append(str);
             }
-
             // 释放资源
-            bufferedReader.close();
-            inputStreamReader.close();
-            inputStream.close();
-            inputStream = null;
-            conn.disconnect();
             jsonObject = JSONObject.parseObject(buffer.toString());
         } catch (ConnectException ce) {
             log.error("连接超时：{}", ce);
         } catch (Exception e) {
             log.error("https请求异常：{}", e);
+        } finally {
+            try {
+                if(bufferedReader != null){
+                    bufferedReader.close();
+                }
+                if(inputStreamReader != null){
+                    inputStreamReader.close();
+                }
+                if(inputStream != null){
+                    inputStream.close();
+                }
+                if(inputStream != null){
+                    inputStream.close();
+                }
+                if(conn != null){
+                    conn.disconnect();
+                }
+            } catch (IOException e) {
+                log.error("微信素材获取 io 流关闭异常：{}",e);
+                e.printStackTrace();
+            }
+
         }
         return jsonObject;
     }
@@ -175,30 +192,25 @@ public class WechatUtil {
                     log.info("微信公众号返回数据为空！");
                     return lists;
                 }
-                List<PerParam> perParams = new ArrayList<>();
                 for (int i = 0; i < jsonArray.size(); i++) {
-                    PerParam perParam = new PerParam();
                     JSONObject itemJson = (JSONObject) jsonArray.get(i);
                     JSONObject contentJson = itemJson.getJSONObject("content");
                     JSONArray arr = contentJson.getJSONArray("news_item");
-                    contentJson = (JSONObject) arr.get(0);
-                    String title = contentJson.getString("title");
+
                     //粗粒度的 过滤 未发布的消息  todo:接口细粒度的控制
+                    JSONObject titleJson = (JSONObject) arr.get(0);
+                    String title = titleJson.getString("title");
                     if(title.contains("草稿") || title.isEmpty() || title.length() < 6){
                         continue;
                     }
+
+                    PerParam perParam = new PerParam();
+                    perParam.setTotalCount(totalCount);
                     Long dataTime = itemJson.getLong("update_time");
                     Date updateTime = timestamToDatetime(dataTime);
                     perParam.setUpdateTime(updateTime);
-                    //获取组件的 media_id
-                    String mediaId = itemJson.getString("media_id");
-                    perParam.setMediaId(mediaId);
-                    perParam.setTotalCount(totalCount);
-                    perParams.add(perParam);
+                    getItem(lists, perParam, contentJson);
                 }
-                List<MaterialReturn> newsReturn = getMaterialByMediaId(perParams, accessToken);
-                lists.addAll(newsReturn);
-                return lists;
             } catch (JSONException e) {
                 // 获取Material失败
                 log.error("获取Material失败 errcode:{} errmsg:{}", jsonObject.getIntValue("errcode"), jsonObject.getString("errmsg"));
@@ -232,38 +244,7 @@ public class WechatUtil {
             // 如果请求成功
             if (null != jsonObject) {
                 try {
-                    JSONArray newsItemArray = jsonObject.getJSONArray("news_item");
-                    if(null == newsItemArray || newsItemArray.isEmpty()){
-                        log.info("微信公众号返回数据为空！");
-                        return ;
-                    }
-                    for (int i = 0; i < newsItemArray.size(); i++) {
-                        JSONObject itemJson = (JSONObject) newsItemArray.get(i);
-                        //图文类型返回
-                        MaterialReturn news = new MaterialReturn();
-                        String title = itemJson.getString("title");
-                        String thumbMediaId = itemJson.getString("thumb_media_id");
-                        Integer showCoverPic = itemJson.getIntValue("show_cover_pic");
-                        String author = itemJson.getString("author");
-                        String digest = itemJson.getString("digest");
-                        String content = itemJson.getString("content");
-                        String url = itemJson.getString("url");
-                        String thumbUrl = itemJson.getString("thumb_url");
-                        String contentSourceUrl = itemJson.getString("content_source_url");
-                        //组装 app 轮播图展示信息
-                        news.setTitle(title);
-                        news.setAuthor(author);
-                        news.setDigest(digest);
-                        news.setThumbMediaId(thumbMediaId);
-                        news.setThumbUrl(thumbUrl);
-                        news.setUrl(url);
-                        news.setContent(content);
-                        news.setShowCoverPic(showCoverPic);
-                        news.setContentSourceUrl(contentSourceUrl);
-                        news.setUpdateTime(perParam.getUpdateTime());
-                        news.setTotalCount(perParam.getTotalCount());
-                        newsReturns.add(news);
-                    }
+                    getItem(newsReturns, perParam, jsonObject);
                 } catch (JSONException e) {
                     // 获取Material失败
                     log.error("获取Material失败 errcode:{} errmsg:{}", jsonObject.getIntValue("errcode"), jsonObject.getString("errmsg"));
@@ -273,6 +254,44 @@ public class WechatUtil {
         return newsReturns;
     }
 
+    /**
+     * 素材结果组装 返回
+     * */
+    private static boolean getItem(List<MaterialReturn> newsReturns, PerParam perParam, JSONObject jsonObject) {
+        JSONArray newsItemArray = jsonObject.getJSONArray("news_item");
+        if(null == newsItemArray || newsItemArray.isEmpty()){
+            log.info("微信公众号返回数据为空！");
+            return true;
+        }
+        for (int i = 0; i < newsItemArray.size(); i++) {
+            JSONObject itemJson = (JSONObject) newsItemArray.get(i);
+            //图文类型返回
+            MaterialReturn news = new MaterialReturn();
+            String title = itemJson.getString("title");
+            String thumbMediaId = itemJson.getString("thumb_media_id");
+            Integer showCoverPic = itemJson.getIntValue("show_cover_pic");
+            String author = itemJson.getString("author");
+            String digest = itemJson.getString("digest");
+            String content = itemJson.getString("content");
+            String url = itemJson.getString("url");
+            String thumbUrl = itemJson.getString("thumb_url");
+            String contentSourceUrl = itemJson.getString("content_source_url");
+
+            news.setTitle(title);
+            news.setAuthor(author);
+            news.setDigest(digest);
+            news.setThumbMediaId(thumbMediaId);
+            news.setThumbUrl(thumbUrl);
+            news.setUrl(url);
+            news.setContent(content);
+            news.setShowCoverPic(showCoverPic);
+            news.setContentSourceUrl(contentSourceUrl);
+            news.setUpdateTime(perParam.getUpdateTime());
+            news.setTotalCount(perParam.getTotalCount());
+            newsReturns.add(news);
+        }
+        return false;
+    }
 
 
     /**
