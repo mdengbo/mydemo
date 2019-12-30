@@ -9,7 +9,11 @@ import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import cn.afterturn.easypoi.word.WordExportUtil;
 import com.example.easypoiexcel.comm.SheetsAttr;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.DVConstraint;
+import org.apache.poi.hssf.usermodel.HSSFDataValidation;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -185,4 +189,26 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 单元格插入下拉 类容
+     * firstRow 开始行号 根据此项目，默认为2(下标0开始)
+     * lastRow  根据此项目，默认为最大65535
+     * firstCol 区域中第一个单元格的列号 (下标0开始) (假如 firstCol=2， lastCol=2， 就是仅代表第 2 列)
+     * lastCol 区域中最后一个单元格的列号
+     * strings 下拉内容
+     * */
+    public static void selectList(Workbook workbook, int firstRow, int lastRow, int firstCol, int lastCol, String[] strings ){
+
+
+        Sheet sheet = workbook.getSheetAt(0);
+        //  生成下拉列表
+        //  只对(x，x)单元格有效
+        CellRangeAddressList cellRangeAddressList = new CellRangeAddressList(firstRow, lastRow, firstCol, lastCol);
+        //  生成下拉框内容
+        DVConstraint dvConstraint = DVConstraint.createExplicitListConstraint(strings);
+        HSSFDataValidation dataValidation = new HSSFDataValidation(cellRangeAddressList, dvConstraint);
+        //  对sheet页生效
+        sheet.addValidationData(dataValidation);
+
+    }
 }

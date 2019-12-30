@@ -6,8 +6,6 @@ import cn.afterturn.easypoi.excel.export.styler.IExcelExportStyler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 
-import java.util.List;
-
 /**
  * @author madengbo
  * @create 2018-11-28 17:32
@@ -171,8 +169,8 @@ public class Style_xls implements IExcelExportStyler {
          * @param isBold 是否加粗
          * @return
          */
-        private Font getFont (Workbook workbook,short size, boolean isBold){
-            Font font = workbook.createFont(); 
+        private Font getFont (Workbook workbook, short size, boolean isBold){
+            Font font = workbook.createFont();
             //字体样式 
             font.setFontName("宋体"); 
             //是否加粗 font.setBold(isBold); 

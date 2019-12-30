@@ -28,10 +28,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -137,7 +134,7 @@ public class XlsTests {
     @Test
     public void exportExcelAppAndFile() {
 
-        List<AppAndFile> appAndFile = applicationService.selectAppAndFile();
+        List<AppAndFile> appAndFile = new ArrayList<>();
         //导出的一些参数设置
         fileName = "appAndFile.xls";
         saveFile = filePath + fileName;
@@ -150,6 +147,8 @@ public class XlsTests {
             Workbook workbook = ExcelExportUtil.exportExcel(exportParams,
                     AppAndFile.class, appAndFile);
 
+            // 设置单元格 下拉选择
+            FileUtil.selectList(workbook, 1, 5600, 2,3, new String[]{"斤","两","个","袋","份"});
             FileOutputStream fos = new FileOutputStream(
                     saveFile
             );
