@@ -1,0 +1,113 @@
+/*管理员信息表*/
+CREATE TABLE [dbo].[admin] (
+	[adminUsername] [varchar] (20) COLLATE Chinese_PRC_CI_AS NOT NULL ,	/*管理员帐号*/
+	[adminPassword] [varchar] (32) COLLATE Chinese_PRC_CI_AS NULL 		/*管理员密码*/
+) ON [PRIMARY]
+/*学历信息表*/
+CREATE TABLE [dbo].[educationInfo] (
+	[educationId] [int] IDENTITY (1, 1) NOT NULL ,				/*学历层次编号*/
+	[educationName] [nvarchar] (20) COLLATE Chinese_PRC_CI_AS NULL		/*学历层次名称*/
+) ON [PRIMARY]
+/*员工信息表*/
+CREATE TABLE [dbo].[employeeInfo] (						
+	[employeeNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NOT NULL ,	//员工编号
+	[employeeName] [nvarchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//员工姓名
+	[employeePassword] [varchar] (30) COLLATE Chinese_PRC_CI_AS NULL ,	//员工登陆密码
+	[employeeSex] [nchar] (1) COLLATE Chinese_PRC_CI_AS NULL ,		//员工性别
+	[employeeBirthday] [datetime] NULL ,					//员工生日
+	[employeeEducationId] [int] NULL ,					//教育层次编号
+	[employeeHomeTel] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,	//家庭电话
+	[employeeMobile] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,	//移动电话
+	[employeeCard] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//身份证号
+	[employeeEmail] [varchar] (30) COLLATE Chinese_PRC_CI_AS NULL ,		//邮件地址
+	[employeeAddress] [nvarchar] (80) COLLATE Chinese_PRC_CI_AS NULL 	//居住地址
+) ON [PRIMARY]
+/*商品类别信息表*/
+CREATE TABLE [dbo].[goodClassInfo] (
+	[goodClassId] [int] IDENTITY (1, 1) NOT NULL ,				//商品类别编号
+	[goodClassName] [nvarchar] (20) COLLATE Chinese_PRC_CI_AS NULL 		//商品类别名称
+) ON [PRIMARY]
+/*商品信息表*/
+CREATE TABLE [dbo].[goodInfo] (
+	[goodNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NOT NULL ,		//商品编号
+	[goodClassId] [int] NULL ,						//商品类别编号
+	[goodName] [nvarchar] (30) COLLATE Chinese_PRC_CI_AS NOT NULL ,		//商品名称
+	[goodUnit] [nvarchar] (2) COLLATE Chinese_PRC_CI_AS NULL ,		//商品单位
+	[goodModel] [nvarchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//商品型号
+	[goodSpecs] [nvarchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//商品规格
+	[goodPrice] [float] NULL ,						//商品出售单价
+	[goodPlace] [nvarchar] (50) COLLATE Chinese_PRC_CI_AS NULL ,		//商品生产地
+	[goodMemo] [char] (10) COLLATE Chinese_PRC_CI_AS NULL ,			//商品附加信息
+	[goodAddTime] [datetime] NULL 						//商品加入时间
+) ON [PRIMARY]
+/*供应商信息表*/
+CREATE TABLE [dbo].[supplierInfo] (
+	[supplierName] [nvarchar] (50) COLLATE Chinese_PRC_CI_AS NOT NULL ,	//供应商公司名称
+	[supplierLawyer] [nvarchar] (4) COLLATE Chinese_PRC_CI_AS NULL ,	//供应商法人代表
+	[supplierTelephone] [varchar] (11) COLLATE Chinese_PRC_CI_AS NULL ,	//供应商电话
+	[supplierAddress] [nvarchar] (50) COLLATE Chinese_PRC_CI_AS NULL 	//供应商地址
+) ON [PRIMARY]
+/*商品进货信息表*/
+CREATE TABLE [dbo].[buyInfo] (
+	[buyId] [int] IDENTITY (1, 1) NOT NULL ,				//进货编号
+	[goodNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//商品编号
+	[supplierName] [nvarchar] (50) COLLATE Chinese_PRC_CI_AS NULL ,		//供应商公司名称
+	[price] [float] NULL ,							//进货单价
+	[number] [int] NULL ,							//进货数量
+	[totalPrice] [float] NULL ,						//进货总价格
+	[buyDate] [datetime] NULL ,						//进货日期
+	[addTime] [datetime] NULL 						//信息加入时间
+) ON [PRIMARY]
+/*进货退货信息表*/
+CREATE TABLE [dbo].[buyBackInfo] (
+	[buyBackId] [int] IDENTITY (1, 1) NOT NULL ,				//系统记录编号
+	[goodNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//商品编号
+	[supplierName] [varchar] (50) COLLATE Chinese_PRC_CI_AS NULL ,		//供应商
+	[price] [float] NULL ,							//退货单价
+	[number] [int] NULL ,							//退货数量
+	[totalPrice] [float] NULL ,						//退货总金额
+	[buyBackDate] [datetime] NULL ,						//退货日期
+	[buyBackReason] [text] COLLATE Chinese_PRC_CI_AS NULL ,			//退货原因
+	[buyBackAddTime] [datetime] NULL 					//退货信息录入时间
+) ON [PRIMARY]
+/*销售信息表*/
+CREATE TABLE [dbo].[sellInfo] (
+	[sellInfoId] [int] IDENTITY (1, 1) NOT NULL ,				//系统记录编号
+	[sellNo] [varchar] (30) COLLATE Chinese_PRC_CI_AS NOT NULL ,		//销售单据编号
+	[goodNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//商品编号
+	[price] [float] NULL ,							//销售单价
+	[number] [int] NULL ,							//销售数量
+	[totalPrice] [float] NULL ,						//销售总价
+	[sellTime] [datetime] NULL ,						//销售时间
+	[employeeNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL 		//销售的员工编号
+) ON [PRIMARY]
+/*员工销售业绩信息表*/
+CREATE TABLE [dbo].[employeeSellResult] (
+	[employeeNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NOT NULL ,	//员工编号
+	[employeeName] [nvarchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//员工姓名
+	[employeeSellMoney] [float] NULL 					//销售金额
+) ON [PRIMARY]
+/*顾客退货信息表*/
+CREATE TABLE [dbo].[sellBackInfo] (
+	[sellBackId] [int] IDENTITY (1, 1) NOT NULL ,				//系统记录编号
+	[sellNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//销售小票号
+	[goodNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//商品编号
+	[price] [float] NULL ,							//退货单价
+	[number] [int] NULL ,							//退货数量
+	[totalPrice] [float] NULL ,						//退货总价
+	[sellBackReason] [text] COLLATE Chinese_PRC_CI_AS NULL ,		//退货原因
+	[sellBackTime] [datetime] NULL 						//退货时间
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+/*商品库存信息表*/
+CREATE TABLE [dbo].[goodStockInfo] (
+	[goodNo] [varchar] (50) COLLATE Chinese_PRC_CI_AS NOT NULL ,		//商品编号
+	[goodCount] [int] NULL 							//商品数量
+) ON [PRIMARY]
+/*购物车信息表*/
+CREATE TABLE [dbo].[goodCartInfo] (
+	[goodCartId] [int] IDENTITY (1, 1) NOT NULL ,				//系统记录编号
+	[employeeNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//员工编号
+	[goodNo] [varchar] (20) COLLATE Chinese_PRC_CI_AS NULL ,		//商品编号
+	[goodCount] [int] NULL 							//商品数量
+) ON [PRIMARY]
+
