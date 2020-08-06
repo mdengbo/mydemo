@@ -10,7 +10,7 @@ java后端：SpringBoot + Thymeleaf + WebSocket + Spring Security + SpringData-J
 ![](https://img2020.cnblogs.com/blog/1353055/202007/1353055-20200717112315040-830760246.png) 
 
 ## 常见问题<br/>
-0、maven下载jar包长时间无反应？
+0、maven下载jar包长时间无反应？   
 ```text
 原因：网络原因连不上maven仓库或其他未知原因导致IDE间接性抽风，导致无法下载联网下载jar包
 
